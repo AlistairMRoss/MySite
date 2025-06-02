@@ -1,0 +1,22 @@
+{
+  "search.exclude": {
+    "**/.sst": true
+  },
+  "eslint.validate": [
+    "javascript",
+    "typescript",
+    "svelte"
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "eslint.workingDirectories": [
+    {
+      "pattern": "./src/*/"
+    }
+  ],
+  "eslint.useFlatConfig": true,
+  "diffEditor.codeLens": true,
+  "diffEditor.ignoreTrimWhitespace": true,
+  "java.configuration.updateBuildConfiguration": "disabled"
+}
