@@ -1,5 +1,5 @@
-import adapter from 'svelte-kit-sst';
-import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
+import adapter from 'svelte-kit-sst'
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte'
 
 const config = {
   preprocess: vitePreprocess({
@@ -15,14 +15,17 @@ const config = {
       'route/*': 'src/routes/*',
     },
     typescript: {
-      config: {
-        compilerOptions: {
+      config: (config) => {
+        config.compilerOptions = {
+          ...config.compilerOptions,
           strict: true,
           noImplicitAny: true,
-        },
+        }
+        return config
       },
     },
   },
-};
+}
 
-export default config;
+export default config
+

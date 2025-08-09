@@ -3,13 +3,7 @@
   "compilerOptions": {
     "target": "ES2021",
     "module": "ESNext",
-    "moduleResolution": "node",
-    "baseUrl": ".",
-    "paths": {
-      "$lib": ["src/lib"],
-      "$lib/*": ["src/lib/*"],
-      "route": ["src/routes/*"]
-    },
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -25,7 +19,9 @@
     "src/**/*.js",
     "src/**/*.ts",
     "src/**/*.svelte",
-    "svelte.config.mjs"
+    "svelte.config.ts",
+    "sst.config.ts",
+    "eslint.config.ts"
   ],
   "exclude": ["node_modules"]
 }
