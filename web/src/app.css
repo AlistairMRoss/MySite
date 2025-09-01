@@ -1,5 +1,6 @@
-@import "tailwindcss";
-
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 /* Color Theme */
 .color-primary { color: #313E50; }
 .bg-primary { background-color: #313E50; }
