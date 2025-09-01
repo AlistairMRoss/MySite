@@ -26,6 +26,7 @@
  * ```
  */
 declare module '$env/static/private' {
+	export const SST_SERVER: string;
 	export const NVM_INC: string;
 	export const TERM_PROGRAM: string;
 	export const PROJECT_CWD: string;
@@ -35,9 +36,12 @@ declare module '$env/static/private' {
 	export const WARP_HONOR_PS1: string;
 	export const TERM: string;
 	export const SHELL: string;
+	export const SST_AWS_SESSION_TOKEN: string;
 	export const HOMEBREW_REPOSITORY: string;
 	export const TMPDIR: string;
+	export const PULUMI_SKIP_UPDATE_CHECK: string;
 	export const TERM_PROGRAM_VERSION: string;
+	export const NODE_OPTIONS: string;
 	export const MallocNanoZone: string;
 	export const ORIGINAL_XDG_CURRENT_DESKTOP: string;
 	export const ZDOTDIR: string;
@@ -45,29 +49,38 @@ declare module '$env/static/private' {
 	export const NVM_DIR: string;
 	export const USER: string;
 	export const LS_COLORS: string;
+	export const SST_AWS_ACCESS_KEY_ID: string;
 	export const COMMAND_MODE: string;
 	export const SSH_AUTH_SOCK: string;
 	export const WARP_IS_LOCAL_SHELL_SESSION: string;
 	export const __CF_USER_TEXT_ENCODING: string;
 	export const VSCODE_PROFILE_INITIALIZED: string;
+	export const SST_AWS_SECRET_ACCESS_KEY: string;
 	export const npm_execpath: string;
+	export const AWS_PROFILE: string;
 	export const WARP_USE_SSH_WRAPPER: string;
 	export const PAGER: string;
+	export const PULUMI_CONFIG_PASSPHRASE: string;
 	export const LSCOLORS: string;
 	export const PATH: string;
 	export const npm_package_json: string;
 	export const LaunchInstanceID: string;
+	export const _: string;
 	export const __CFBundleIdentifier: string;
 	export const USER_ZDOTDIR: string;
 	export const PWD: string;
 	export const VSCODE_NONCE: string;
 	export const npm_lifecycle_event: string;
+	export const PULUMI_CONFIG: string;
 	export const P9K_SSH: string;
 	export const npm_package_name: string;
 	export const LANG: string;
 	export const P9K_TTY: string;
+	export const PULUMI_DEBUG_COMMANDS: string;
+	export const SST_AWS_REGION: string;
 	export const XPC_FLAGS: string;
 	export const VSCODE_GIT_ASKPASS_EXTRA_ARGS: string;
+	export const PULUMI_PROJECT: string;
 	export const npm_package_version: string;
 	export const XPC_SERVICE_NAME: string;
 	export const VSCODE_INJECTION: string;
@@ -82,7 +95,9 @@ declare module '$env/static/private' {
 	export const SSH_SOCKET_DIR: string;
 	export const BUN_INSTALL: string;
 	export const NVM_BIN: string;
+	export const PULUMI_HOME: string;
 	export const npm_config_user_agent: string;
+	export const PULUMI_BACKEND_URL: string;
 	export const INFOPATH: string;
 	export const HOMEBREW_CELLAR: string;
 	export const GIT_ASKPASS: string;
@@ -122,6 +137,7 @@ declare module '$env/static/public' {
  */
 declare module '$env/dynamic/private' {
 	export const env: {
+		SST_SERVER: string;
 		NVM_INC: string;
 		TERM_PROGRAM: string;
 		PROJECT_CWD: string;
@@ -131,9 +147,12 @@ declare module '$env/dynamic/private' {
 		WARP_HONOR_PS1: string;
 		TERM: string;
 		SHELL: string;
+		SST_AWS_SESSION_TOKEN: string;
 		HOMEBREW_REPOSITORY: string;
 		TMPDIR: string;
+		PULUMI_SKIP_UPDATE_CHECK: string;
 		TERM_PROGRAM_VERSION: string;
+		NODE_OPTIONS: string;
 		MallocNanoZone: string;
 		ORIGINAL_XDG_CURRENT_DESKTOP: string;
 		ZDOTDIR: string;
@@ -141,29 +160,38 @@ declare module '$env/dynamic/private' {
 		NVM_DIR: string;
 		USER: string;
 		LS_COLORS: string;
+		SST_AWS_ACCESS_KEY_ID: string;
 		COMMAND_MODE: string;
 		SSH_AUTH_SOCK: string;
 		WARP_IS_LOCAL_SHELL_SESSION: string;
 		__CF_USER_TEXT_ENCODING: string;
 		VSCODE_PROFILE_INITIALIZED: string;
+		SST_AWS_SECRET_ACCESS_KEY: string;
 		npm_execpath: string;
+		AWS_PROFILE: string;
 		WARP_USE_SSH_WRAPPER: string;
 		PAGER: string;
+		PULUMI_CONFIG_PASSPHRASE: string;
 		LSCOLORS: string;
 		PATH: string;
 		npm_package_json: string;
 		LaunchInstanceID: string;
+		_: string;
 		__CFBundleIdentifier: string;
 		USER_ZDOTDIR: string;
 		PWD: string;
 		VSCODE_NONCE: string;
 		npm_lifecycle_event: string;
+		PULUMI_CONFIG: string;
 		P9K_SSH: string;
 		npm_package_name: string;
 		LANG: string;
 		P9K_TTY: string;
+		PULUMI_DEBUG_COMMANDS: string;
+		SST_AWS_REGION: string;
 		XPC_FLAGS: string;
 		VSCODE_GIT_ASKPASS_EXTRA_ARGS: string;
+		PULUMI_PROJECT: string;
 		npm_package_version: string;
 		XPC_SERVICE_NAME: string;
 		VSCODE_INJECTION: string;
@@ -178,7 +206,9 @@ declare module '$env/dynamic/private' {
 		SSH_SOCKET_DIR: string;
 		BUN_INSTALL: string;
 		NVM_BIN: string;
+		PULUMI_HOME: string;
 		npm_config_user_agent: string;
+		PULUMI_BACKEND_URL: string;
 		INFOPATH: string;
 		HOMEBREW_CELLAR: string;
 		GIT_ASKPASS: string;
