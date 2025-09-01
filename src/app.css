@@ -1,3 +1,40 @@
-@import 'tailwindcss';
-@plugin '@tailwindcss/forms';
-@plugin '@tailwindcss/typography';
+@import "tailwindcss";
+
+/* Color Theme */
+.color-primary { color: #313E50; }
+.bg-primary { background-color: #313E50; }
+.color-secondary { color: #3A435E; }
+.bg-secondary { background-color: #3A435E; }
+.color-tertiary { color: #455561; }
+.bg-tertiary { background-color: #455561; }
+.color-quaternary { color: #5C6672; }
+.bg-quaternary { background-color: #5C6672; }
+.color-quinary { color: #6C6F7F; }
+.bg-quinary { background-color: #6C6F7F; }
+
+/* Custom styles for welcome section */
+.welcome-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.welcome-text {
+  font-size: 3.5rem;
+  font-weight: bold;
+  text-align: center;
+  line-height: 1.2;
+}
+
+@media (max-width: 768px) {
+  .welcome-text {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .welcome-text {
+    font-size: 2rem;
+  }
+}

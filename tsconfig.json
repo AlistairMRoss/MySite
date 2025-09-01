@@ -5,14 +5,17 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
+    "allowImportingTsExtensions": false,
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitAny": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "verbatimModuleSyntax": false
   },
   "include": [
     "src/**/*.d.ts",
@@ -20,8 +23,7 @@
     "src/**/*.ts",
     "src/**/*.svelte",
     "svelte.config.ts",
-    "sst.config.ts",
-    "eslint.config.ts"
+    "sst.config.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", ".svelte-kit", "build", "dist"]
 }

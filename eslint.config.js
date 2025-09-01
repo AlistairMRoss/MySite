@@ -12,7 +12,8 @@ export default [
     languageOptions: {
       globals: { ...globals.browser, ...globals.node },
       parserOptions: {
-        project: './tsconfig.json',
+        project: ['./tsconfig.json'],
+        tsconfigRootDir: import.meta.dirname,
         extraFileExtensions: ['.svelte']
       }
     },
@@ -41,12 +42,21 @@ export default [
       parser: svelteParser,
       parserOptions: {
         parser: ts.parser,
-        project: './tsconfig.json',
+        project: ['./tsconfig.json'],
+        tsconfigRootDir: import.meta.dirname,
         extraFileExtensions: ['.svelte']
       }
     },
     rules: {
       'svelte/indent': ['error', { indent: 2 }]
+    }
+  },
+  {
+    files: ['*.config.*', 'vite.config.*', 'svelte.config.*'],
+    languageOptions: {
+      parserOptions: {
+        project: null
+      }
     }
   }
 ]
