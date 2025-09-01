@@ -40,11 +40,11 @@
   }
 
   const openGithub = () => {
-    window.open('https://github.com/yourusername', '_blank') // Replace with your GitHub URL
+    window.open('https://github.com/yourusername', '_blank')
   }
 
   const openLinkedIn = () => {
-    window.open('https://linkedin.com/in/yourusername', '_blank') // Replace with your LinkedIn URL
+    window.open('https://linkedin.com/in/yourusername', '_blank')
   }
 
   const toggleInvert = () => {
@@ -90,9 +90,8 @@
   })
 
   $: primaryBg = isInverted ? 'bg-white' : 'bg-black'
-  $: secondaryBg = isInverted ? 'bg-neutral-50' : 'bg-neutral-950'
+  $: secondaryBg = isInverted ? 'bg-neutral-50' : 'bg-neutral-900'
   $: tertiaryBg = isInverted ? 'bg-stone-50' : 'bg-black'
-  $: quaternaryBg = isInverted ? 'bg-zinc-50' : 'bg-zinc-950'
   $: primaryText = isInverted ? 'text-black' : 'text-white'
   $: secondaryText = isInverted ? 'text-neutral-600' : 'text-neutral-300'
   $: buttonHoverBg = isInverted ? 'hover:bg-black' : 'hover:bg-white'
@@ -239,7 +238,7 @@
   </div>
 </section>
 
-<section class="py-40 {quaternaryBg}">
+<section class="py-40 {secondaryBg}">
   <div class="max-w-4xl mx-auto text-center px-8">
     <h2 class="text-3xl md:text-4xl font-bold {primaryText} mb-6" id="blog">I Write Here Sometimes</h2>
     <p class="text-lg {secondaryText} mb-8">
