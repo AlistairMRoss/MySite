@@ -1,9 +1,8 @@
 <script lang='ts'>
   import { goto } from '$app/navigation'
   import { onMount } from 'svelte'
-  import { fly, fade } from 'svelte/transition'
+  import { fly } from 'svelte/transition'
   import { authStore } from '$lib/stores/auth'
-  import type { LoginCredentials } from '@shared-types/auth'
 
   let showWelcome = false
   let showNavigation = false
@@ -12,16 +11,8 @@
   let isInverted = false
   let showEmailCopied = false
   
-  // Secret login state
   let clickCount = 0
   let firstClickTime = 0
-  let showLoginModal = false
-  let loginForm: LoginCredentials = {
-    email: '',
-    password: ''
-  }
-  let loginError = ''
-  let isLoggingIn = false
 
   const smoothScrollTo = (elementId: string): void => {
     const element = document.getElementById(elementId)
@@ -85,62 +76,20 @@
     }, 1200)
   }
 
-  // Secret login functions
   const handleWelcomeClick = (): void => {
     const currentTime = Date.now()
-    
-    // Reset if more than 5 seconds have passed
+  
     if (currentTime - firstClickTime > 5000) {
       clickCount = 1
       firstClickTime = currentTime
     } else {
       clickCount++
     }
-    
+  
     if (clickCount === 5) {
-      showLoginModal = true
+      authStore.startAuthFlow() // Direct redirect to OpenAuth
       clickCount = 0 
       firstClickTime = 0
-    }
-  }
-
-  const closeLoginModal = (): void => {
-    showLoginModal = false
-    loginForm = { email: '', password: '' }
-    loginError = ''
-  }
-
-  const handleLogin = async (): Promise<void> => {
-    if (!loginForm.email || !loginForm.password) {
-      loginError = 'Please fill in both fields'
-      return
-    }
-
-    isLoggingIn = true
-    loginError = ''
-
-    try {
-      await authStore.login(loginForm)
-      closeLoginModal()
-      
-      showEmailCopied = true
-      setTimeout(() => {
-        showEmailCopied = false
-      }, 2000)
-
-    } catch (error: any) {
-      loginError = error.message || 'An error occurred during login'
-    } finally {
-      isLoggingIn = false
-    }
-  }
-
-  const handleKeyPress = (event: KeyboardEvent): void => {
-    if (event.key === 'Enter') {
-      handleLogin()
-    }
-    if (event.key === 'Escape') {
-      closeLoginModal()
     }
   }
 
@@ -174,7 +123,6 @@
   $: socialHoverBg = isInverted ? 'hover:bg-neutral-100' : 'hover:bg-neutral-800'
 </script>
 
-<!-- Success/Error Message -->
 {#if showEmailCopied}
   <div class="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 {isInverted ? 'bg-green-50 text-green-800 border-green-200' : 'bg-green-900 text-green-100 border-green-800'} border px-4 py-2 rounded-lg shadow-lg"
     in:fly={{ y: -50, duration: 300 }}
@@ -183,89 +131,10 @@
   </div>
 {/if}
 
-{#if showLoginModal}
-  <div 
-    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
-    in:fade={{ duration: 200 }}
-    out:fade={{ duration: 200 }}
-    on:click={closeLoginModal}
-    role="dialog"
-    aria-modal="true"
-  >
-    <div 
-      class="{primaryBg} rounded-lg shadow-xl max-w-md w-full p-6 border {isInverted ? 'border-neutral-200' : 'border-neutral-700'}"
-      in:fly={{ y: 50, duration: 300 }}
-      on:click|stopPropagation
-    >
-      <div class="flex justify-between items-center mb-6">
-        <h3 class="{primaryText} text-xl font-bold">Secret Access</h3>
-        <button
-          on:click={closeLoginModal}
-          class="{secondaryText} hover:text-red-500 transition-colors"
-        >
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-
-      <form on:submit|preventDefault={handleLogin} class="space-y-4">
-        <div>
-          <label for="email" class="{secondaryText} block text-sm font-medium mb-1">Email</label>
-          <input
-            id="email"
-            type="text"
-            bind:value={loginForm.email}
-            on:keydown={handleKeyPress}
-            class="{isInverted ? 'bg-neutral-50 border-neutral-300 text-black' : 'bg-neutral-800 border-neutral-600 text-white'} w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter email..."
-            disabled={isLoggingIn}
-          />
-        </div>
-
-        <div>
-          <label for="password" class="{secondaryText} block text-sm font-medium mb-1">Password</label>
-          <input
-            id="password"
-            type="password"
-            bind:value={loginForm.password}
-            on:keydown={handleKeyPress}
-            class="{isInverted ? 'bg-neutral-50 border-neutral-300 text-black' : 'bg-neutral-800 border-neutral-600 text-white'} w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter password"
-            disabled={isLoggingIn}
-          />
-        </div>
-
-        {#if loginError}
-          <div class="text-red-500 text-sm bg-red-50 border border-red-200 rounded p-2">
-            {loginError}
-          </div>
-        {/if}
-
-        <div class="flex space-x-3 pt-2">
-          <button
-            type="button"
-            on:click={closeLoginModal}
-            class="{secondaryText} px-4 py-2 rounded-md border {isInverted ? 'border-neutral-300 hover:bg-neutral-100' : 'border-neutral-600 hover:bg-neutral-800'} transition-colors"
-            disabled={isLoggingIn}
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            class="{isLoggingIn ? 'opacity-50 cursor-not-allowed' : ''} bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors flex-1"
-            disabled={isLoggingIn}
-          >
-            {isLoggingIn ? 'Logging in...' : 'Login'}
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-{/if}
-
 <section class="welcome-section {primaryBg} min-h-screen flex flex-col items-center justify-center p-8 relative">
   {#if showWelcome}
+    <!-- svelte-ignore a11y_no_noninteractive_element_to_interactive_role -->
+    <!-- eslint-disable-next-line svelte/valid-compile -->
     <h1 
       class="welcome-text {primaryText} text-4xl md:text-6xl font-bold mb-12 text-center cursor-pointer select-none user-select-none" 
       in:fly={{ y: 50, duration: 800, delay: 200 }}

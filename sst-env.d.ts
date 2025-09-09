@@ -5,6 +5,14 @@
 
 declare module "sst" {
   export interface Resource {
+    "api": {
+      "type": "sst.aws.ApiGatewayV2"
+      "url": string
+    }
+    "projects": {
+      "name": string
+      "type": "sst.aws.Dynamo"
+    }
     "web": {
       "type": "sst.aws.StaticSite"
       "url": string

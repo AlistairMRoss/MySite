@@ -4,8 +4,8 @@ export default $config({
   app(input) {
     return {
       name: 'mysite',
-      removal: input?.stage === 'live' ? 'retain' : 'remove',
-      protect: ['live'].includes(input?.stage),
+      removal: input?.stage === 'live' ? 'remove' : 'remove',
+      protect: [''].includes(input?.stage),
       home: 'aws',
       providers: input?.stage === "live" ? {
         aws: {
@@ -16,6 +16,8 @@ export default $config({
     };
   },
   async run() {
+    await import('./infra/Dynamo')
+    await import('./infra/Api')
     new sst.aws.StaticSite("web", {
       path: 'web',
       build: {

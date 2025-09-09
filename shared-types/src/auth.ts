@@ -4,15 +4,18 @@ export interface LoginCredentials {
 }
 
 export interface AuthState {
-  apiKey: string | null
-  refreshToken: string | null
+  apiKey: string | null,
+  refreshToken: string | null,
+  accessToken: string | null,
+  idToken: string | null,
   isAuthenticated: boolean
 }
 
 export interface LoginResponse {
-  statusCode: string
-  message: string
-  apiKey: string
-  refreshToken: string
-  sub: string
+  apiKey: string,
+  refresh_token: string,
+  access_token: string,
+  id_token: string,
+  user: string,
+  isAuthenticated: boolean
 }

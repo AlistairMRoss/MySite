@@ -17,6 +17,10 @@
     "noEmit": true
   },
   "files": [],
+  "include": [
+    "infra",
+    "sst.config.ts"
+  ],
   "references": [
     { "path": "./shared-types" }
   ],

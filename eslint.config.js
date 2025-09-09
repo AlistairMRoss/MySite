@@ -82,7 +82,6 @@ export default [
       'linebreak-style': ['error', 'unix'],
       'semi': ['error', 'never'],
       'eol-last': ['error', 'always'],
-      'no-console': 'warn',
       'no-debugger': 'error'
     }
   },
@@ -119,7 +118,6 @@ export default [
     files: ['web/src/**/*.{ts,svelte}'],
     ignores: ['*.d.ts'],
     rules: {
-      'no-console': 'warn',
       'no-debugger': 'error',
       'prefer-const': 'error',
       'no-var': 'error',

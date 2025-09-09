@@ -17,6 +17,7 @@
   
   const allProjects: Project[] = [
     {
+      projectId: '',
       title: 'string',
       description: 'string',
       tech: ['',''],
