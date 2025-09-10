@@ -1,9 +1,10 @@
 import { type APIGatewayProxyHandlerV2WithJWTAuthorizer, type APIGatewayProxyEventV2WithJWTAuthorizer, type APIGatewayProxyResultV2 } from 'aws-lambda'
-import { getProjects } from '../../../core/src/projects/index'
+import { addProject } from '../../../core/src/projects/index'
 
 export const handler: APIGatewayProxyHandlerV2WithJWTAuthorizer = async (event: APIGatewayProxyEventV2WithJWTAuthorizer): Promise<APIGatewayProxyResultV2> => {
   try {
-    const result = await getProjects()
+    const data = JSON.parse(event.body as string)
+    const result = await addProject(data.project)
     return {
       statusCode: 200,
       headers: { 'Content-Type': 'application/json' },

@@ -15,7 +15,6 @@
       "@shared-types/*": ["../shared-types/src/*"],
       "$lib": ["./src/lib"],
       "$lib/*": ["./src/lib/*"]
-
     }
   },
   "exclude": [

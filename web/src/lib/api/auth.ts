@@ -1,38 +1,34 @@
-import { AUTH_URL, CLIENT_ID, REDIRECT_URI } from './config'
+import { client, subjects } from './client'
 import type { LoginCredentials, LoginResponse } from '@shared-types/auth'
+import { REDIRECT_URI } from './config'
 
 export const authApi = {
-  startAuthFlow(): void {
-    const authUrl = new URL(`${AUTH_URL}/authorize`)
-    authUrl.searchParams.set('client_id', CLIENT_ID)
-    authUrl.searchParams.set('response_type', 'code')
-    authUrl.searchParams.set('redirect_uri', REDIRECT_URI)
-    authUrl.searchParams.set('scope', 'openid profile email')
-    
-    window.location.href = authUrl.toString()
+  async startAuthFlow(): Promise<{ url: string }> {
+    const { url } = await client.authorize(REDIRECT_URI, 'code')
+    window.location.href = url.toString()
+    return { url }
   },
 
-  async exchangeCodeForTokens(code: string): Promise<LoginResponse> {
-    const response = await fetch(`${AUTH_URL}/token`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams({
-        grant_type: 'authorization_code',
-        code,
-        client_id: CLIENT_ID,
-        redirect_uri: REDIRECT_URI
-      })
-    })
-    
-    if (!response.ok) {
-      throw new Error(await response.text())
+  async exchangeCodeForTokens(code: string): Promise<any> {
+    const tokens = await client.exchange(code, REDIRECT_URI)
+    console.log(tokens)
+    return tokens
+  },
+
+  async verifyTokens(accessToken: string): Promise<object> {
+    try {
+      const verified = await client.verify(subjects, accessToken)
+      return verified
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      throw new Error(err)
     }
-    
-    return response.json()
+
   },
 
   async login(_credentials: LoginCredentials): Promise<LoginResponse> {
-    throw new Error('Direct login not supported with OpenAuth. Use startAuthFlow() instead.')
+    throw new Error(
+      'Direct login not supported with OpenAuth. Use startAuthFlow() instead.'
+    )
   }
 }
-

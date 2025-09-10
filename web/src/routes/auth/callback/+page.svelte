@@ -25,7 +25,6 @@
 
     try {
       await authStore.handleAuthCallback(code)
-      // Redirect to dashboard or home page
       goto('/')
     } catch (err: any) {
       error = err.message

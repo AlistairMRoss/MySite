@@ -3,21 +3,24 @@ import { projectsTable } from './Dynamo'
 
 const Api = new sst.aws.ApiGatewayV2('api', {
     link: [projectsTable],
-    domain: `api.${$app.stage}.alistairmikeross.com`
+    domain: `api.${$app.stage}.alistairmikeross.com`,
+})
+
+const authorizerFunction = new sst.aws.Function('AuthorizerFunction', {
+  handler: 'infra/Helpers/authorizer.handler',
 })
 
 const authorizer = Api.addAuthorizer({
     name: 'Auth',
-    jwt: {
-       audiences: ['alistairmikeross-web'],
-       issuer: 'https://auth.alistairmikeross.com',
+    lambda: {
+      function: authorizerFunction.arn,
+      response: 'iam'
     }
 })
 
 const authItem = {
-  jwt: {
-    authorizer: authorizer.id
-  }
+  lambda: authorizer.id
 }
 
 addAuthRoute(Api, { path: 'GET /v1/projects', handler: 'server/functions/src/projects/getProjects.handler' }, authItem)
+addAuthRoute(Api, { path: 'POST /v1/projects/add', handler: 'server/functions/src/projects/addProject.handler'}, authItem)

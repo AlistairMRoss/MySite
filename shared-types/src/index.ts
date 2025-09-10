@@ -1,5 +1,5 @@
 export interface Project {
-    projectId: string
+    projectId?: string
     title: string
     description: string
     tech: string[]

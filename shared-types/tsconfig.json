@@ -5,7 +5,9 @@
     "rootDir": "./src",
     "noEmit": false,
     "composite": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "declaration": true,
+    "declarationMap": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]

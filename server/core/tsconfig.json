@@ -9,14 +9,14 @@
     "resolveJsonModule": true,
     "declaration": true,
     "composite": true,
+    "noEmit": false,
     "paths": {
-      "@shared-types/*": ["../../shared-types/src/*"]
+      "@shared-types/*": ["./shared-types/src/*"]
     }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"],
   "references": [
-    { "path": "../core" },
     { "path": "../../shared-types" }
   ]
 }

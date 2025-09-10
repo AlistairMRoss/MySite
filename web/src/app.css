@@ -1,41 +1,111 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/* Color Theme */
-.color-primary { color: #313E50; }
-.bg-primary { background-color: #313E50; }
-.color-secondary { color: #3A435E; }
-.bg-secondary { background-color: #3A435E; }
-.color-tertiary { color: #455561; }
-.bg-tertiary { background-color: #455561; }
-.color-quaternary { color: #5C6672; }
-.bg-quaternary { background-color: #5C6672; }
-.color-quinary { color: #6C6F7F; }
-.bg-quinary { background-color: #6C6F7F; }
 
-/* Custom styles for welcome section */
-.welcome-section {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* Default (dark) theme */
+:root {
+  --primary-bg: #000000;
+  --secondary-bg: #171717;
+  --tertiary-bg: #000000;
+  --card-bg: #171717;
+  --primary-text: #ffffff;
+  --secondary-text: #d4d4d8;
+  --button-border: #ffffff;
+  --button-hover-bg: #ffffff;
+  --button-hover-text: #000000;
+  --card-hover-bg: #262626;
+  --card-border: #404040;
+  
+  /* Status colors */
+  --status-live-bg: #14532d;
+  --status-live-text: #22c55e;
+  --status-progress-bg: #713f12;
+  --status-progress-text: #eab308;
+  --status-complete-bg: #581c87;
+  --status-complete-text: #a855f7;
+  
+  /* Category colors */
+  --category-bg: #1e3a8a;
+  --category-text: #93c5fd;
+  
+  /* Tech tag colors */
+  --tech-bg: #404040;
+  --tech-text: #d4d4d8;
 }
 
-.welcome-text {
-  font-size: 3.5rem;
-  font-weight: bold;
-  text-align: center;
-  line-height: 1.2;
+/* Inverted (light) theme */
+.inverted {
+  --primary-bg: #ffffff;
+  --secondary-bg: #fafafa;
+  --tertiary-bg: #fafaf9;
+  --card-bg: #ffffff;
+  --primary-text: #000000;
+  --secondary-text: #525252;
+  --button-border: #000000;
+  --button-hover-bg: #000000;
+  --button-hover-text: #ffffff;
+  --card-hover-bg: #fafafa;
+  --card-border: #e5e5e5;
+  
+  /* Status colors */
+  --status-live-bg: #dcfce7;
+  --status-live-text: #16a34a;
+  --status-progress-bg: #fef3c7;
+  --status-progress-text: #d97706;
+  --status-complete-bg: #f3e8ff;
+  --status-complete-text: #9333ea;
+  
+  /* Category colors */
+  --category-bg: #dbeafe;
+  --category-text: #1d4ed8;
+  
+  /* Tech tag colors */
+  --tech-bg: #e5e5e5;
+  --tech-text: #404040;
 }
 
-@media (max-width: 768px) {
-  .welcome-text {
-    font-size: 2.5rem;
-  }
+/* Utility classes */
+.primary-bg { background-color: var(--primary-bg); }
+.secondary-bg { background-color: var(--secondary-bg); }
+.tertiary-bg { background-color: var(--tertiary-bg); }
+.card-bg { 
+  background-color: var(--card-bg);
+  border-color: var(--card-border);
+}
+.primary-text { color: var(--primary-text); }
+.secondary-text { color: var(--secondary-text); }
+.button-border { border-color: var(--button-border); }
+.button-hover:hover { 
+  background-color: var(--button-hover-bg);
+  color: var(--button-hover-text);
+}
+.card-hover:hover { background-color: var(--card-hover-bg); }
+.underline-color { background-color: var(--underline-color); }
+.social-hover:hover { background-color: var(--social-hover-bg); }
+
+.success-notification {
+  background-color: var(--success-bg);
+  color: var(--success-text);
+  border-color: var(--success-border);
 }
 
-@media (max-width: 480px) {
-  .welcome-text {
-    font-size: 2rem;
-  }
+.status-live { 
+  background-color: var(--status-live-bg);
+  color: var(--status-live-text);
+}
+.status-progress { 
+  background-color: var(--status-progress-bg);
+  color: var(--status-progress-text);
+}
+.status-complete { 
+  background-color: var(--status-complete-bg);
+  color: var(--status-complete-text);
+}
+.category-tag { 
+  background-color: var(--category-bg);
+  color: var(--category-text);
+}
+.tech-tag { 
+  background-color: var(--tech-bg);
+  color: var(--tech-text);
 }

@@ -4,16 +4,16 @@ import type { AuthState } from '@shared-types/auth'
 
 interface AuthStore {
   subscribe: Writable<AuthState>['subscribe']
-  startAuthFlow(): void
+  startAuthFlow(): Promise<void>
   handleAuthCallback(code: string): Promise<boolean>
+  verifyTokens(token: string): Promise<boolean>
   logout(): void
 }
 
 const initialState: AuthState = {
-  apiKey: null,
   refreshToken: null,
   accessToken: null,
-  idToken: null,
+  expiry: 0,
   isAuthenticated: false
 }
 
@@ -34,21 +34,19 @@ function createAuthStore(): AuthStore {
 
   return {
     subscribe,
-
-    startAuthFlow(): void {
-      authApi.startAuthFlow()
+    async startAuthFlow(): Promise<void> {
+      await authApi.startAuthFlow()
     },
 
     async handleAuthCallback(code: string): Promise<boolean> {
       try {
+        console.log('this is the code ', code)
         const tokenResponse = await authApi.exchangeCodeForTokens(code)
-        
 
         const newState: AuthState = {
-          apiKey: tokenResponse.access_token,
-          refreshToken: tokenResponse.refresh_token,
-          accessToken: tokenResponse.access_token,
-          idToken: tokenResponse.id_token,
+          refreshToken: tokenResponse.tokens.refresh,
+          accessToken: tokenResponse.tokens.access,
+          expiry: tokenResponse.tokens.expiresIn + Date.now(),
           isAuthenticated: true
         }
 
@@ -63,6 +61,15 @@ function createAuthStore(): AuthStore {
       } catch (err: any) {
         console.error('Auth callback error:', err)
         throw new Error(`Authentication failed: ${err.message}`)
+      }
+    },
+
+    async verifyTokens(token: string): Promise<boolean> {
+      try {
+        await authApi.verifyTokens(token)
+        return true
+      } catch (err: any) {
+        throw new Error(err)
       }
     },
 

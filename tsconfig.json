@@ -22,7 +22,9 @@
     "sst.config.ts"
   ],
   "references": [
-    { "path": "./shared-types" }
+    { "path": "./shared-types" },
+    { "path": "./server/core" },
+    { "path": "./server/functions" }
   ],
   "exclude": ["node_modules", "dist", "build", ".svelte-kit"]
 }

@@ -1,4 +1,8 @@
 {
   "name": "functions",
-  "packageManager": "yarn@4.7.0"
+  "packageManager": "yarn@4.7.0",
+  "devDependencies": {
+    "@openauthjs/openauth": "^0.4.3",
+    "valibot": "^1.1.0"
+  }
 }

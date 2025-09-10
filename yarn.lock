@@ -445,6 +445,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@openauthjs/openauth@npm:^0.4.3":
+  version: 0.4.3
+  resolution: "@openauthjs/openauth@npm:0.4.3"
+  dependencies:
+    "@standard-schema/spec": "npm:1.0.0-beta.3"
+    aws4fetch: "npm:1.0.20"
+    jose: "npm:5.9.6"
+  peerDependencies:
+    arctic: ^2.2.2
+    hono: ^4.0.0
+  checksum: 10c0/64f6352ffc25f179c57fcb25191f8b65a57ecf3e84bce24e7df3a41228c96689da0068b3177cab57b7f316b16404455e10392b3e8b8079ceb38886950960ea91
+  languageName: node
+  linkType: hard
+
 "@pkgjs/parseargs@npm:^0.11.0":
   version: 0.11.0
   resolution: "@pkgjs/parseargs@npm:0.11.0"
@@ -603,6 +617,13 @@ __metadata:
   version: 4.50.1
   resolution: "@rollup/rollup-win32-x64-msvc@npm:4.50.1"
   conditions: os=win32 & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@standard-schema/spec@npm:1.0.0-beta.3":
+  version: 1.0.0-beta.3
+  resolution: "@standard-schema/spec@npm:1.0.0-beta.3"
+  checksum: 10c0/ae0a4e2a733d1267998f621b4d769b55350ea1c9da8353997b49bceff383015ce6f86adfc32be6dd522e1bbb3e06c8266b8cb334db4aaffd97f7ee92261deca4
   languageName: node
   linkType: hard
 
@@ -783,6 +804,13 @@ __metadata:
   version: 7.7.1
   resolution: "@types/semver@npm:7.7.1"
   checksum: 10c0/c938aef3bf79a73f0f3f6037c16e2e759ff40c54122ddf0b2583703393d8d3127130823facb880e694caa324eb6845628186aac1997ee8b31dc2d18fafe26268
+  languageName: node
+  linkType: hard
+
+"@types/uuid@npm:8.3.4":
+  version: 8.3.4
+  resolution: "@types/uuid@npm:8.3.4"
+  checksum: 10c0/b9ac98f82fcf35962317ef7dc44d9ac9e0f6fdb68121d384c88fe12ea318487d5585d3480fa003cf28be86a3bbe213ca688ba786601dce4a97724765eb5b1cf2
   languageName: node
   linkType: hard
 
@@ -1315,6 +1343,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"aws4fetch@npm:1.0.20":
+  version: 1.0.20
+  resolution: "aws4fetch@npm:1.0.20"
+  checksum: 10c0/a4eac7bd0d1c3e611c17ed1ef41ac0b48c0a8e74a985ad968c071e74d94586d3572edc943b43fa5ca756c686ea73baa2f48e264d657bb8c2e95c8e0037d48a87
+  languageName: node
+  linkType: hard
+
 "axobject-query@npm:^4.0.0, axobject-query@npm:^4.1.0":
   version: 4.1.0
   resolution: "axobject-query@npm:4.1.0"
@@ -1651,6 +1686,12 @@ __metadata:
   checksum: 10c0/9596e8ccdbf1a3a88ae02cf5ee80c1c50959423e1022e4e60b91dd87c622af1da309253d8abdb258fb5e3eacb4f08e579dc58b4897b8087574eee0fd35dfa5d2
   languageName: node
   linkType: hard
+
+"core@workspace:server/core":
+  version: 0.0.0-use.local
+  resolution: "core@workspace:server/core"
+  languageName: unknown
+  linkType: soft
 
 "cors@npm:^2.8.5":
   version: 2.8.5
@@ -2480,6 +2521,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"functions@workspace:server/functions":
+  version: 0.0.0-use.local
+  resolution: "functions@workspace:server/functions"
+  dependencies:
+    "@openauthjs/openauth": "npm:^0.4.3"
+    valibot: "npm:^1.1.0"
+  languageName: unknown
+  linkType: soft
+
 "get-intrinsic@npm:^1.2.4, get-intrinsic@npm:^1.2.5, get-intrinsic@npm:^1.3.0":
   version: 1.3.0
   resolution: "get-intrinsic@npm:1.3.0"
@@ -2948,6 +2998,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jose@npm:5.9.6":
+  version: 5.9.6
+  resolution: "jose@npm:5.9.6"
+  checksum: 10c0/d6bcd8c7d655b5cda8e182952a76f0c093347f5476d74795405bb91563f7ab676f61540310dd4b1531c60d685335ceb600571a409551d2cbd2ab3e9f9fbf1e4d
+  languageName: node
+  linkType: hard
+
 "jose@npm:^4.15.4":
   version: 4.15.9
   resolution: "jose@npm:4.15.9"
@@ -3354,6 +3411,7 @@ __metadata:
     svelte: "npm:^4.0.0"
     svelte-eslint-parser: "npm:^0.33.0"
     typescript: "npm:^5.9.2"
+    uuidv4: "npm:^6.2.13"
   languageName: unknown
   linkType: soft
 
@@ -5080,6 +5138,37 @@ __metadata:
   languageName: node
   linkType: hard
 
+"uuid@npm:8.3.2":
+  version: 8.3.2
+  resolution: "uuid@npm:8.3.2"
+  bin:
+    uuid: dist/bin/uuid
+  checksum: 10c0/bcbb807a917d374a49f475fae2e87fdca7da5e5530820ef53f65ba1d12131bd81a92ecf259cc7ce317cbe0f289e7d79fdfebcef9bfa3087c8c8a2fa304c9be54
+  languageName: node
+  linkType: hard
+
+"uuidv4@npm:^6.2.13":
+  version: 6.2.13
+  resolution: "uuidv4@npm:6.2.13"
+  dependencies:
+    "@types/uuid": "npm:8.3.4"
+    uuid: "npm:8.3.2"
+  checksum: 10c0/33287c7c71e19c5a9fe0d936c0df648338965442c80b5b26e51c13ec9a9c524a72c718355e0cea8a9431a78680d72a41a236b87046ecc0a05f518c8e22df9e35
+  languageName: node
+  linkType: hard
+
+"valibot@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "valibot@npm:1.1.0"
+  peerDependencies:
+    typescript: ">=5"
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  checksum: 10c0/39580b4e4683cc44398fb775e88c03639dbaa7e6f587df416125916cb6307292d45df18f656054e8846093ced13a2d2fdc98659da6dd104d1d20180edcbd99d4
+  languageName: node
+  linkType: hard
+
 "vary@npm:^1, vary@npm:^1.1.2":
   version: 1.1.2
   resolution: "vary@npm:1.1.2"
@@ -5212,6 +5301,7 @@ __metadata:
   resolution: "web@workspace:web"
   dependencies:
     "@eslint/compat": "npm:^1.2.3"
+    "@openauthjs/openauth": "npm:^0.4.3"
     "@sveltejs/adapter-auto": "npm:^3.0.0"
     "@sveltejs/adapter-static": "npm:^3.0.8"
     "@sveltejs/kit": "npm:^2.0.0"
@@ -5232,6 +5322,7 @@ __metadata:
     tailwindcss: "npm:^3.4.9"
     typescript: "npm:^5.0.0"
     typescript-eslint: "npm:^8.42.0"
+    valibot: "npm:^1.1.0"
     vite: "npm:^5.4.11"
     vitest: "npm:^2.0.4"
   languageName: unknown

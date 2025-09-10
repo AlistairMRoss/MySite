@@ -2,7 +2,8 @@
   "name": "mysite",
   "type": "module",
   "dependencies": {
-    "sst": "3.17.12"
+    "sst": "3.17.12",
+    "uuidv4": "^6.2.13"
   },
   "devDependencies": {
     "@eslint/js": "^9.34.0",
@@ -19,6 +20,7 @@
   "workspaces": [
     "web",
     "shared-types",
-    "server"
+    "server/functions",
+    "server/core"
   ]
 }
