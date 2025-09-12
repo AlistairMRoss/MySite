@@ -2,8 +2,7 @@
   "name": "mysite",
   "type": "module",
   "dependencies": {
-    "sst": "3.17.12",
-    "uuidv4": "^6.2.13"
+    "sst": "3.17.12"
   },
   "devDependencies": {
     "@eslint/js": "^9.34.0",

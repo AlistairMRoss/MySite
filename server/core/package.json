@@ -1,4 +1,7 @@
 {
   "name": "core",
-  "packageManager": "yarn@4.7.0"
+  "packageManager": "yarn@4.7.0",
+  "dependencies": {
+    "uuid": "^13.0.0"
+  }
 }

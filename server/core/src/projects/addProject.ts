@@ -1,7 +1,7 @@
 import { Project } from '@shared-types/index'
 import { DynamoDB } from 'aws-sdk'
 import { Resource } from 'sst'
-import { uuid } from 'uuidv4'
+import { v4 as uuid } from 'uuid'
 
 export async function addProject(project: Project): Promise<Project> {
     try {
