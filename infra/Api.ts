@@ -22,5 +22,5 @@ const authItem = {
   lambda: authorizer.id
 }
 
-addAuthRoute(Api, { path: 'GET /v1/projects', handler: 'server/functions/src/projects/getProjects.handler' }, authItem)
+Api.route('GET /v1/projects', 'server/functions/src/projects/getProjects.handler')
 addAuthRoute(Api, { path: 'POST /v1/projects/add', handler: 'server/functions/src/projects/addProject.handler'}, authItem)

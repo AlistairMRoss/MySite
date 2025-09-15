@@ -1,33 +1,31 @@
 <script lang='ts'>
+  import { onMount } from 'svelte'
   import { fly } from 'svelte/transition'
   import { goto } from '$app/navigation'
-  import type { Project } from '../../../../shared-types/src/index'
   import { authStore } from '$lib/stores/auth'
+  import { projectStore, projects, projectsLoading } from '$lib/stores/projects'
   
   let isInverted = false
-  
-  const allProjects: Project[] = [
-    {
-      projectId: '',
-      title: 'string',
-      description: 'string',
-      tech: ['',''],
-      status: '',
-      link: '',
-      category: ['']
-    }
-  ]
-  
   let selectedCategory = 'All'
-  const categories = ['All']
+  let allCategories: string[] = ['All']
+  
+  onMount(() => {
+    projectStore.loadProjects()
+  })
+  
+  $: allCategories = [
+    'All',
+    ...new Set($projects.flatMap(project => project.category))
+  ]
+
   
   $: filteredProjects = selectedCategory === 'All' 
-    ? allProjects 
-    : allProjects.filter(project => project.category[0] === selectedCategory)
+    ? $projects 
+    : $projects.filter(project => project.category.includes(selectedCategory))
   
   const openProject = (link: string) => {
-    if (link !== '#') {
-      window.open(link, '_blank')
+    if (link !== '#' && link !== '') {
+      window.open(link.startsWith('http') ? link : `https://${link}`, '_blank')
     }
   }
   
@@ -36,18 +34,24 @@
   }
   
   const getStatusClass = (status: string) => {
-    switch(status) {
-      case 'Live': return 'status-live'
-      case 'In Progress': return 'status-progress'
+    switch(status.toLowerCase()) {
+      case 'live': return 'status-live'
+      case 'in progress': return 'status-progress'
       default: return 'status-complete'
     }
   }
 
-  const handleAddProject = () => {}
+  const handleAddProject = async () => {
+    goto('/projects/add')
+  }
+
+  const truncateDescription = (description: string) => {
+    return description.length > 100 ? description.substring(0, 100) + '...' : description
+  }
 </script>
 
 <svelte:head>
-  <title>Projects | Your Name</title>
+  <title>Projects</title>
   <meta name="description" content="A collection of my development projects and experiments." />
 </svelte:head>
 
@@ -97,60 +101,67 @@
         <p class="text-xl secondary-text">A collection of things I've built and experimented with</p>
       </div>
       
-      <div class="flex flex-wrap justify-center gap-4 mb-12" in:fly={{ y: 20, duration: 600, delay: 200 }}>
-        {#each categories as category}
-          <button
-            on:click={() => selectedCategory = category}
-            class="{selectedCategory === category ? 'button-hover' : 'primary-text border-2 button-border'} px-4 py-2 rounded-full transition-all duration-300 text-sm font-medium"
-          >
-            {category}
-          </button>
-        {/each}
-      </div>
-      
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {#each filteredProjects as project, i}
-          <div 
-            class="border card-bg card-hover rounded-lg p-6 transition-all duration-300 transform hover:scale-105 hover:shadow-xl cursor-pointer"
-            in:fly={{ y: 50, duration: 600, delay: i * 100 }}
-            on:click={() => openProject(project.link)}
-            role="button"
-            tabindex="0"
-            on:keydown={(e) => e.key === 'Enter' && openProject(project.link)}
-          >
-            <div class="flex justify-between items-start mb-4">
-              <div>
-                <h3 class="primary-text text-xl font-bold mb-2">{project.title}</h3>
-                <span class="category-tag px-2 py-1 rounded-full text-xs font-medium">
-                  {project.category}
+      {#if $projectsLoading}
+        <div class="flex justify-center items-center min-h-[400px]">
+          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-500"></div>
+        </div>
+      {:else}
+        <div class="flex flex-wrap justify-center gap-4 mb-12" in:fly={{ y: 20, duration: 600, delay: 200 }}>
+          {#each allCategories as category}
+            <button
+              on:click={() => selectedCategory = category}
+              class="{selectedCategory === category ? 'bg-blue-500 text-white border-2 border-blue-500' : 'primary-text border-2 button-border hover:bg-blue-50'} px-4 py-2 rounded-full transition-all duration-300 text-sm font-medium"
+            >
+              {category}
+            </button>
+          {/each}
+        </div>
+        
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {#each filteredProjects as project, i}
+            <div 
+              class="border card-bg card-hover rounded-lg p-6 transition-all duration-300 transform hover:scale-105 hover:shadow-xl cursor-pointer"
+              in:fly={{ y: 50, duration: 600, delay: i * 100 }}
+              on:click={() => openProject(project.link)}
+              role="button"
+              tabindex="0"
+              on:keydown={(e) => e.key === 'Enter' && openProject(project.link)}
+            >
+              <div class="flex justify-between items-start mb-4">
+                <div>
+                  <h3 class="primary-text text-xl font-bold mb-2">{project.title}</h3>
+                  <span class="category-tag px-2 py-1 rounded-full text-xs font-medium">
+                    {project.category[0]}
+                  </span>
+                </div>
+                <span class="{getStatusClass(project.status)} text-xs font-medium px-2 py-1 rounded-full">
+                  {project.status}
                 </span>
               </div>
-              <span class="{getStatusClass(project.status)} text-xs font-medium px-2 py-1 rounded-full">
-                {project.status}
-              </span>
+              
+              <p class="secondary-text mb-4 leading-relaxed text-sm">{truncateDescription(project.description)}</p>
+              
+              <div class="flex flex-wrap gap-2 mb-4">
+                {#each project.tech as tech}
+                  <span class="tech-tag px-2 py-1 rounded text-xs font-medium">
+                    {tech}
+                  </span>
+                {/each}
+              </div>
+              
+              <div class="flex items-center secondary-text text-sm">
+                <span>{project.link === '#' || project.link === '' ? 'Coming Soon' : 'View Project'}</span>
+                {#if project.link !== '#' && project.link !== ''}
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                {/if}
+              </div>
             </div>
-            
-            <p class="secondary-text mb-4 leading-relaxed text-sm">{project.description}</p>
-            
-            <div class="flex flex-wrap gap-2 mb-4">
-              {#each project.tech as tech}
-                <span class="tech-tag px-2 py-1 rounded text-xs font-medium">
-                  {tech}
-                </span>
-              {/each}
-            </div>
-            
-            <div class="flex items-center secondary-text text-sm">
-              <span>{project.link === '#' ? 'Coming Soon' : 'View Project'}</span>
-              {#if project.link !== '#'}
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                </svg>
-              {/if}
-            </div>
-          </div>
-        {/each}
-      </div>
+          {/each}
+        </div>
+      {/if}
     </div>
   </main>
 </div>
+

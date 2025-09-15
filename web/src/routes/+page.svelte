@@ -25,17 +25,33 @@
     }
   }
 
-  const downloadResume = (): void => {
-    const link = document.createElement('a')
-    link.href = '/path-to-your-resume.pdf'
-    link.download = 'Your_Name_Resume.pdf'
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
+  const downloadResume = async (): Promise<void> => {
+    try {
+      const response = await fetch('https://alistair-ross-cv.s3.us-east-1.amazonaws.com/WhatsApp+Image+2025-08-18+at+10.58.50.jpeg')
+    
+      if (!response.ok) {
+        throw new Error('Failed to fetch resume')
+      }
+    
+      const blob = await response.blob()
+      const url = window.URL.createObjectURL(blob)
+    
+      const link = document.createElement('a')
+      link.href = url
+      link.download = 'Alistair_Ross_Resume.jpeg'
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+    
+      window.URL.revokeObjectURL(url)
+    } catch (error) {
+      console.error('Error downloading resume:', error)
+      window.open('https://alistair-ross-cv.s3.us-east-1.amazonaws.com/WhatsApp+Image+2025-08-18+at+10.58.50.jpeg', '_blank')
+    }
   }
 
   const copyEmailToClipboard = (): void => {
-    const email = 'your.email@example.com'
+    const email = 'alistairmikeross.com'
     navigator.clipboard.writeText(email).then(() => {
       showEmailCopied = true
       setTimeout(() => {
@@ -45,11 +61,11 @@
   }
 
   const openGithub = (): void => {
-    window.open('https://github.com/yourusername', '_blank')
+    window.open('https://github.com/alistairmross', '_blank')
   }
 
   const openLinkedIn = (): void => {
-    window.open('https://linkedin.com/in/yourusername', '_blank')
+    window.open('https://linkedin.com/in/alistair-ross-1b647a204', '_blank')
   }
 
   const toggleInvert = (): void => {
@@ -112,28 +128,33 @@
   })
 </script>
 
+<svelte:head>
+  <title>Alistair Ross</title>
+  <meta name="description" content="I dont know" />
+</svelte:head>
+
 <div class="{isInverted ? 'inverted' : ''}">
   {#if showEmailCopied}
-    <div class="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 success-notification border px-4 py-2 rounded-lg shadow-lg"
+    <div class="font-custom fixed top-4 left-1/2 transform -translate-x-1/2 z-50 {isInverted ? 'bg-green-50 text-green-800 border-green-200' : 'bg-green-900 text-green-100 border-green-800'} border px-4 py-2 rounded-lg shadow-lg"
       in:fly={{ y: -50, duration: 300 }}
       out:fly={{ y: -50, duration: 300 }}>
-      {$authStore.isAuthenticated ? 'Admin access granted!' : 'Email address copied to clipboard!'}
+      📧 Email address copied to clipboard!
     </div>
   {/if}
 
-  <section class="welcome-section primary-bg min-h-screen flex flex-col items-center justify-center p-8 relative">
+  <section class="font-custom welcome-section primary-bg min-h-screen flex flex-col items-center justify-center p-8 relative">
     {#if showWelcome}
       <!-- svelte-ignore a11y_no_noninteractive_element_to_interactive_role -->
       <!-- eslint-disable-next-line svelte/valid-compile -->
       <h1 
-        class="welcome-text primary-text text-4xl md:text-6xl font-bold mb-12 text-center cursor-pointer select-none user-select-none" 
+        class="font-custom welcome-text primary-text text-4xl md:text-6xl font-bold mb-12 text-center cursor-pointer select-none user-select-none" 
         in:fly={{ y: 50, duration: 800, delay: 200 }}
         on:click={handleWelcomeClick}
         role="button"
         tabindex="0"
         on:keydown={(e) => e.key === 'Enter' && handleWelcomeClick()}
       >
-        Hi, Welcome to my page
+        Hi, wElcOmE tO mY PaGe
       </h1>
     {/if}
 
@@ -144,7 +165,7 @@
             <li>
               <button
                 on:click={() => smoothScrollTo('about')}
-                class="group relative primary-text text-2xl font-bold py-4 px-8 button-hover transition-all duration-300 transform hover:scale-105 cursor-pointer"
+                class="font-custom group relative primary-text text-2xl font-bold py-4 px-8 button-hover transition-all duration-300 transform hover:scale-105 cursor-pointer"
               >
                 About Me
                 <span class="absolute bottom-0 left-0 w-0 h-0.5 underline-color group-hover:w-full transition-all duration-300"></span>
@@ -153,7 +174,7 @@
             <li>
               <button
                 on:click={() => smoothScrollTo('projects')}
-                class="group relative primary-text text-2xl font-bold py-4 px-8 button-hover transition-all duration-300 transform hover:scale-105 cursor-pointer"
+                class="font-custom group relative primary-text text-2xl font-bold py-4 px-8 button-hover transition-all duration-300 transform hover:scale-105 cursor-pointer"
               >
                 Things I've Done
                 <span class="absolute bottom-0 left-0 w-0 h-0.5 underline-color group-hover:w-full transition-all duration-300"></span>
@@ -162,7 +183,7 @@
             <li>
               <button
                 on:click={() => smoothScrollTo('blog')}
-                class="group relative primary-text text-2xl font-bold py-4 px-8 button-hover transition-all duration-300 transform hover:scale-105 cursor-pointer"
+                class="font-custom group relative primary-text text-2xl font-bold py-4 px-8 button-hover transition-all duration-300 transform hover:scale-105 cursor-pointer"
               >
                 I Write Here Sometimes
                 <span class="absolute bottom-0 left-0 w-0 h-0.5 underline-color group-hover:w-full transition-all duration-300"></span>
@@ -171,7 +192,7 @@
             <li>
               <button
                 on:click={downloadResume}
-                class="group relative primary-text text-2xl font-bold py-4 px-8 button-hover transition-all duration-300 transform hover:scale-105 cursor-pointer flex items-center space-x-2"
+                class="font-custom group relative primary-text text-2xl font-bold py-4 px-8 button-hover transition-all duration-300 transform hover:scale-105 cursor-pointer flex items-center space-x-2"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -231,19 +252,21 @@
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
         </svg>
-        <span class="text-sm font-medium">Invert</span>
+        <span class="font-custom text-sm font-medium">Invert</span>
       </button>
     {/if}
   </section>
 
-  <section class="min-h-screen secondary-bg p-8 pt-20">
+  <section class="py-[30rem] secondary-bg p-8 pt-20">
     <div class="max-w-4xl mx-auto text-center">
-      <h2 class="text-3xl md:text-4xl font-bold primary-text mb-8" id="about">About Me</h2>
-      <p class="primary-text text-lg leading-relaxed">Your about content goes here...</p>
+      <h2 class="font-custom text-3xl md:text-4xl font-bold primary-text mb-8" id="about">About Me</h2>
+      <p class="font-custom primary-text text-lg leading-relaxed">My name is Alistair Ross. I am 23 years old, from Johannesburg, South Africa. I have an honours degree in Computer science
+        from the University of Pretoria.
+      </p>
     </div>
   </section>
 
-  <section class="py-40 tertiary-bg">
+  <section class="font-custom py-40 tertiary-bg">
     <div class="max-w-4xl mx-auto text-center px-8">
       <h2 class="text-3xl md:text-4xl font-bold primary-text mb-6" id="projects">Things I've Done</h2>
       <p class="text-lg secondary-text mb-8">
@@ -263,7 +286,7 @@
     </div>
   </section>
 
-  <section class="py-40 secondary-bg">
+  <section class="font-custom py-40 secondary-bg">
     <div class="max-w-4xl mx-auto text-center px-8">
       <h2 class="text-3xl md:text-4xl font-bold primary-text mb-6" id="blog">I Write Here Sometimes</h2>
       <p class="text-lg secondary-text mb-8">

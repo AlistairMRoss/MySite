@@ -68,6 +68,7 @@ function createAuthStore(): AuthStore {
       try {
         await authApi.verifyTokens(token)
         return true
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         throw new Error(err)
       }
