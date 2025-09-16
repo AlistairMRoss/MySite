@@ -11,7 +11,6 @@ export const projectApi = {
       })
       
       const respObj = await result.json()
-      console.log(respObj)
       return respObj.result as Project[]
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
@@ -24,13 +23,25 @@ export const projectApi = {
     try {
       const authState = get(authStore)
       const accessToken = authState.accessToken
-      console.log(project)
-      // I will add the logic for this later
-      return true
+      const result = await fetch(`${API_V1}/projects/add`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({project: project})
+      })
+
+      if (result.status === 401) {
+        console.log('you are unauthorised you silly billy')
+        return false
+      }
+    
+      return result.ok
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       console.error(err)
-      throw new Error(err)
+      throw err
     }
   }
 }

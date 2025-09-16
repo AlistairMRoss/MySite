@@ -100,7 +100,10 @@ export default [
     plugins: { svelte, '@typescript-eslint': ts },
     rules: {
       ...svelte.configs.recommended.rules,
-      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      'no-unused-vars': ['error', {
+          'argsIgnorePattern': '^_',
+          'varsIgnorePattern': '^_',
+      }],
       'svelte/no-unused-svelte-ignore': 'off',
       'svelte/no-target-blank': 'error',
       'svelte/no-at-debug-tags': 'warn',

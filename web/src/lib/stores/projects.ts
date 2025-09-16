@@ -35,7 +35,6 @@ function createProjectStore(): ProjectStore {
       
       try {
         const response = await projectApi.getProjects()
-        console.log('These are the projects: ', response)
         update(state => ({
           ...state,
           projects: response,
@@ -51,18 +50,20 @@ function createProjectStore(): ProjectStore {
       }
     },
 
-    async addProject(_projectData?: Partial<Project>): Promise<Project> {
+    async addProject(projectData: Project): Promise<Project> {
       update(state => ({ ...state, loading: true, error: null }))
       
       try {
-        const newProject = await projectApi.addProject()
-        update(state => ({
-          ...state,
-          projects: [...state.projects, newProject],
-          loading: false,
-          error: null
-        }))
-        return newProject
+        const newProject = await projectApi.addProject(projectData)
+        if (newProject) {
+          update(state => ({
+            ...state,
+            projects: [...state.projects, projectData],
+            loading: false,
+            error: null
+          }))
+        } 
+        return projectData
       } catch (error) {
         update(state => ({
           ...state,

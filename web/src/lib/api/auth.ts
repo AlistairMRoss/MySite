@@ -1,6 +1,11 @@
+import type { ExchangeError, ExchangeSuccess, RefreshError, RefreshSuccess, VerifyError, VerifyResult } from '@openauthjs/openauth/client'
 import { client, subjects } from './client'
-import type { LoginCredentials, LoginResponse } from '@shared-types/auth'
 import { REDIRECT_URI } from './config'
+interface TokenPayload {
+  user: {
+    email: string;
+  };
+}
 
 export const authApi = {
   async startAuthFlow(): Promise<{ url: string }> {
@@ -9,13 +14,13 @@ export const authApi = {
     return { url }
   },
 
-  async exchangeCodeForTokens(code: string): Promise<any> {
+  async exchangeCodeForTokens(code: string): Promise<ExchangeSuccess | ExchangeError> {
     const tokens = await client.exchange(code, REDIRECT_URI)
     console.log(tokens)
     return tokens
   },
 
-  async verifyTokens(accessToken: string): Promise<object> {
+  async verifyTokens(accessToken: string): Promise<VerifyResult<TokenPayload> | VerifyError> {
     try {
       const verified = await client.verify(subjects, accessToken)
       return verified
@@ -23,12 +28,15 @@ export const authApi = {
     } catch (err: any) {
       throw new Error(err)
     }
-
   },
 
-  async login(_credentials: LoginCredentials): Promise<LoginResponse> {
-    throw new Error(
-      'Direct login not supported with OpenAuth. Use startAuthFlow() instead.'
-    )
+  async refreshToken(refreshToken: string): Promise<Promise<RefreshSuccess | RefreshError>> {
+    try {
+      const refreshed = await client.refresh(refreshToken)
+      return refreshed
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      throw new Error(err)
+    }
   }
 }

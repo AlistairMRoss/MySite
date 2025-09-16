@@ -3,6 +3,7 @@
   import { onMount } from 'svelte'
   import { fly } from 'svelte/transition'
   import { authStore } from '$lib/stores/auth'
+  import { get } from 'svelte/store'
 
   let showWelcome = false
   let showNavigation = false
@@ -109,7 +110,7 @@
     }
   }
 
-  onMount(() => {
+  onMount(async() => {
     setTimeout(() => {
       showWelcome = true
     }, 300)
@@ -125,6 +126,16 @@
     setTimeout(() => {
       showInvertButton = true
     }, 1400)
+
+    const authState = get(authStore)
+    const accessToken = authState.accessToken
+    console.log(accessToken)
+    if (accessToken) {
+      const verified = await authStore.verifyTokens(accessToken)
+      if (!verified) {
+        await authStore.refreshToken(authState.refreshToken as string)
+      }
+    }
   })
 </script>
 

@@ -1,12 +1,14 @@
 import { writable, type Writable } from 'svelte/store'
 import { authApi } from '$lib/api/auth'
 import type { AuthState } from '@shared-types/auth'
+import type { ExchangeSuccess, RefreshSuccess } from '@openauthjs/openauth/client'
 
 interface AuthStore {
   subscribe: Writable<AuthState>['subscribe']
   startAuthFlow(): Promise<void>
   handleAuthCallback(code: string): Promise<boolean>
-  verifyTokens(token: string): Promise<boolean>
+  verifyTokens(accessToken: string): Promise<boolean>
+  refreshToken(refreshToken: string): Promise<boolean>
   logout(): void
 }
 
@@ -41,7 +43,7 @@ function createAuthStore(): AuthStore {
     async handleAuthCallback(code: string): Promise<boolean> {
       try {
         console.log('this is the code ', code)
-        const tokenResponse = await authApi.exchangeCodeForTokens(code)
+        const tokenResponse = await authApi.exchangeCodeForTokens(code) as ExchangeSuccess
 
         const newState: AuthState = {
           refreshToken: tokenResponse.tokens.refresh,
@@ -64,10 +66,17 @@ function createAuthStore(): AuthStore {
       }
     },
 
-    async verifyTokens(token: string): Promise<boolean> {
+    async verifyTokens(accessToken: string): Promise<boolean> {
       try {
-        await authApi.verifyTokens(token)
-        return true
+        if (!accessToken) {
+          return true
+        }
+        const verification = await authApi.verifyTokens(accessToken)
+        if (verification.err && verification.err.message === 'Invalid access token') {
+          console.log('return false')
+          return false
+        }
+        {return true}
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         throw new Error(err)
@@ -78,6 +87,32 @@ function createAuthStore(): AuthStore {
       set(initialState)
       if (typeof window !== 'undefined') {
         localStorage.removeItem('auth_state')
+      }
+    },
+
+    async refreshToken(refreshToken: string): Promise<boolean> {
+      try {
+        const tokenResponse = await authApi.refreshToken(refreshToken) as RefreshSuccess
+        if (!tokenResponse || !tokenResponse.tokens) {
+          return false
+        }
+
+        const newState: AuthState = {
+          refreshToken: tokenResponse.tokens.refresh,
+          accessToken: tokenResponse.tokens.access,
+          expiry: tokenResponse.tokens.expiresIn + Date.now(),
+          isAuthenticated: true
+        }
+
+        set(newState)
+        
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('auth_state', JSON.stringify(newState))
+        }
+        return true
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (err: any) {
+        throw new Error(err) 
       }
     }
   }
