@@ -129,7 +129,6 @@
 
     const authState = get(authStore)
     const accessToken = authState.accessToken
-    console.log(accessToken)
     if (accessToken) {
       const verified = await authStore.verifyTokens(accessToken)
       if (!verified) {
@@ -165,7 +164,7 @@
         tabindex="0"
         on:keydown={(e) => e.key === 'Enter' && handleWelcomeClick()}
       >
-        Hi, wElcOmE tO mY PaGe
+        Hi, welcome to my page!
       </h1>
     {/if}
 
