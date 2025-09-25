@@ -7,6 +7,7 @@
   import AddProject from '$lib/components/projects/AddProject.svelte'
   import ViewProject from '$lib/components/projects/ViewProject.svelte'
   import type { Project } from '@shared-types/index'
+  import EditProject from '$lib/components/projects/EditProject.svelte'
   
   let isInverted = false
   let selectedCategory = 'All'
@@ -147,10 +148,10 @@
             <div 
               class="border card-bg card-hover rounded-lg p-6 transition-all duration-300 transform hover:scale-105 hover:shadow-xl cursor-pointer relative group"
               in:fly={{ y: 50, duration: 600, delay: i * 100 }}
-              on:click={() => handleViewProject((project.projectId) as string)}
+              on:click={() => handleViewProject(String(project.projectId))}
               role="button"
               tabindex="0"
-              on:keydown={(e) => e.key === 'Enter' && handleViewProject((project.projectId) as string)}
+              on:keydown={(e) => e.key === 'Enter' && handleViewProject(String(project.projectId))}
             >
               <div class="flex justify-between items-start mb-4">
                 <div>
@@ -218,8 +219,13 @@
   />
 {/if}
 
-{#if viewProject}
+{#if viewProject && !$authStore.isAuthenticated}
   <ViewProject
+    project={selectedProject}
+    onClose={() => viewProject = false}
+  />
+{:else if viewProject && $authStore.isAuthenticated}
+  <EditProject
     project={selectedProject}
     onClose={() => viewProject = false}
   />
