@@ -40,8 +40,8 @@
     role="dialog"
     aria-labelledby="projectTitle"
   >
-    <div class="bg-gray-100 rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-      <div class="sticky top-0 bg-gray-100 border-b border-gray-200 px-8 py-6 rounded-t-xl">
+    <div class="bg-stone-200 rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+      <div class="sticky top-0 bg-stone-200 border-b border-slate-300 px-8 py-6 rounded-t-xl">
         <div class="flex justify-between items-start">
           <div class="flex-1">
             <h1 id="projectTitle" class="text-3xl font-bold text-gray-900 mb-2">
@@ -84,38 +84,14 @@
           </p>
         </section>
 
-        {#if project.tech && project.tech.length > 0}
-          <section>
-            <h2 class="text-xl font-semibold text-gray-900 mb-4">Technologies Used</h2>
-            <div class="flex flex-wrap gap-2">
-              {#each project.tech as tech}
-                <span class="bg-gray-50 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium border border-gray-200">
-                  {tech}
-                </span>
-              {/each}
-            </div>
-          </section>
-        {/if}
-
-        {#if project.category && project.category.length > 0}
-          <section>
-            <h2 class="text-xl font-semibold text-gray-900 mb-4">Categories</h2>
-            <div class="flex flex-wrap gap-2">
-              {#each project.category as category}
-                <span class="bg-blue-50 text-blue-700 px-4 py-2 rounded-lg text-sm font-medium border border-blue-200">
-                  {category}
-                </span>
-              {/each}
-            </div>
-          </section>
-        {/if}
+     
       </div>
 
-      <div class="sticky bottom-0 bg-gray-200 px-8 py-4 rounded-b-xl border-t border-gray-200">
+      <div class="sticky bottom-0 bg-stone-200 px-8 py-4 rounded-b-xl border-t border-slate-300">
         <div class="flex justify-end gap-3">
           <button
             on:click={onClose}
-            class="bg-gray-200 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-300 transition-colors font-medium"
+            class="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-300 transition-colors font-medium"
           >
             Close
           </button>

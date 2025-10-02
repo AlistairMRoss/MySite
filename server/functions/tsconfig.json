@@ -9,6 +9,7 @@
     "resolveJsonModule": true,
     "declaration": true,
     "composite": true,
+    "noEmit": true,
     "paths": {
       "@shared-types/*": ["../../shared-types/src/*"]
     }

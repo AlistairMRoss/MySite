@@ -13,7 +13,7 @@ interface ProjectStore {
   loadProjects(): Promise<void>
   addProject(projectData?: Partial<Project>): Promise<Project>
   updateProject(updatedProject: Project): void
-  removeProject(projectId: string | number): void
+  removeProject(projectId: string): void
   clearError(): void
   reset(): void
 }
@@ -83,11 +83,16 @@ function createProjectStore(): ProjectStore {
       }))
     },
 
-    removeProject(projectId: string | number): void {
-      update(state => ({
-        ...state,
-        projects: state.projects.filter(project => project.projectId !== projectId)
-      }))
+    async removeProject(projectId: string): Promise<void> {
+      update(state => ({ ...state, loading: true, error: null }))
+      const response = await projectApi.removeProject(projectId)
+      if (response) {
+        update(state => ({
+          ...state,
+          loading: false,
+          projects: state.projects.filter(project => project.projectId !== projectId)
+        }))
+      }
     },
 
     clearError(): void {
@@ -97,6 +102,7 @@ function createProjectStore(): ProjectStore {
     reset(): void {
       set(initialState)
     }
+
   }
 }
 

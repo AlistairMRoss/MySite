@@ -49,9 +49,7 @@
   }
 
   const handleViewProject = async (projectId: string) => {
-    console.log('I want to see a project: ', projectId)
     selectedProject = filteredProjects.find(project => project.projectId === projectId) as Project
-    console.log('this is the project: ', selectedProject)
     viewProject = true
   }
 
@@ -64,7 +62,7 @@
     }
     
     try {
-    // await projectStore.deleteProject(projectId)s
+      await projectStore.removeProject(projectId)
     } catch (error) {
       console.error('Error deleting project:', error)
       alert('Failed to delete project. Please try again.')

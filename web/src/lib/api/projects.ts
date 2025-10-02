@@ -43,5 +43,30 @@ export const projectApi = {
       console.error(err)
       throw err
     }
+  },
+
+  async removeProject(projectId: string): Promise<boolean> {
+    try {
+      const authState = get(authStore)
+      const accessToken = authState.accessToken
+      const result = await fetch(`${API_V1}/project/${projectId}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json'
+        }
+      })
+
+      if (result.status === 401) {
+        console.log('you are unauthorised you silly billy')
+        return false
+      }
+    
+      return result.ok
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      console.error(err)
+      throw err
+    }
   }
 }
