@@ -1,5 +1,11 @@
 <script lang='ts'>
   import { projectStore } from '$lib/stores/projects'
+  import { marked } from 'marked'
+
+  marked.setOptions({
+    breaks: true,
+    gfm: true,
+  })
 
   export let onClose = () => {}
   export let onSuccess = () => {}
@@ -14,6 +20,9 @@
     link: '',
     category: ['']
   }
+
+  $: renderedDescription = marked(newProject.description)
+
 
   const addTechField = () => {
     newProject.tech = [...newProject.tech, '']
@@ -149,15 +158,27 @@
       <div>
         <!-- svelte-ignore a11y_label_has_associated_control -->
         <!-- eslint-disable-next-line svelte/valid-compile -->
-        <label class="block text-sm font-medium text-gray-700 mb-1">Description *</label>
+        <label class="block text-sm font-medium text-gray-700 mb-1">
+          Description 
+        </label>
         <textarea
           bind:value={newProject.description}
-          rows="3"
-          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          rows="5"
+          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono text-sm"
           required
           disabled={isSubmitting}
+          placeholder="Use markdown formatting: **bold**, *italic*, [link](url), etc."
         ></textarea>
       </div>
+
+      {#if newProject.description.trim()}
+        <div class="border border-gray-200 rounded-md p-4 bg-gray-50">
+          <p class="text-xs text-gray-600 font-medium mb-2">Preview:</p>
+          <div class="prose prose-sm max-w-none markdown-content">
+            {@html renderedDescription}
+          </div>
+        </div>
+      {/if}
 
       <div>
         <!-- svelte-ignore a11y_label_has_associated_control -->
@@ -180,10 +201,10 @@
         <!-- eslint-disable-next-line svelte/valid-compile -->
         <label class="block text-sm font-medium text-gray-700 mb-1">Project Link</label>
         <input
-          type="url"
+          type="text"
           bind:value={newProject.link}
           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="https://..."
+          placeholder="url..."
           disabled={isSubmitting}
         />
       </div>
@@ -282,3 +303,117 @@
     </form>
   </div>
 </div>
+
+<style>
+  /* Style the markdown content */
+  .markdown-content :global(h1) {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    color: #1f2937;
+  }
+  
+  .markdown-content :global(h2) {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-top: 0.875rem;
+    margin-bottom: 0.5rem;
+    color: #374151;
+  }
+  
+  .markdown-content :global(h3) {
+    font-size: 1.125rem;
+    font-weight: bold;
+    margin-top: 0.75rem;
+    margin-bottom: 0.5rem;
+    color: #4b5563;
+  }
+  
+  .markdown-content :global(h4) {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    color: #4b5563;
+  }
+  
+  .markdown-content :global(p) {
+    margin-bottom: 0.75rem;
+    line-height: 1.625;
+    color: #4b5563;
+  }
+  
+  .markdown-content :global(strong) {
+    font-weight: 600;
+    color: #1f2937;
+  }
+  
+  .markdown-content :global(em) {
+    font-style: italic;
+  }
+  
+  .markdown-content :global(a) {
+    color: #2563eb;
+    text-decoration: underline;
+  }
+  
+  .markdown-content :global(a:hover) {
+    color: #1d4ed8;
+  }
+  
+  .markdown-content :global(ul) {
+    list-style-type: disc;
+    margin-left: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .markdown-content :global(ol) {
+    list-style-type: decimal;
+    margin-left: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .markdown-content :global(li) {
+    margin-bottom: 0.25rem;
+    color: #4b5563;
+  }
+  
+  .markdown-content :global(code) {
+    background-color: #f3f4f6;
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.25rem;
+    font-family: monospace;
+    font-size: 0.875rem;
+    color: #1f2937;
+  }
+  
+  .markdown-content :global(pre) {
+    background-color: #1f2937;
+    color: #f9fafb;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin-bottom: 0.75rem;
+  }
+  
+  .markdown-content :global(pre code) {
+    background-color: transparent;
+    padding: 0;
+    color: inherit;
+  }
+  
+  .markdown-content :global(blockquote) {
+    border-left: 4px solid #e5e7eb;
+    padding-left: 1rem;
+    margin: 0.75rem 0;
+    color: #6b7280;
+    font-style: italic;
+  }
+
+  .markdown-content :global(hr) {
+    border: none;
+    border-top: 1px solid #e5e7eb;
+    margin: 1rem 0;
+  }
+</style>

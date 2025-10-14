@@ -9,9 +9,12 @@ const config = {
 		adapter: adapter({
 			pages: 'dist',
 			assets: 'dist',
-			fallback: 'index.html',
 			precompress: false
-		})
+		}),
+		alias: {
+			'@shared-types': '../shared-types/src',
+			'@shared-types/*': '../shared-types/src/*'
+    	}
 	}
 };
 

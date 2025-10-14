@@ -10,12 +10,7 @@
     "sourceMap": true,
     "strict": true,
     "moduleResolution": "bundler",
-    "noEmit": true,
-    "paths": {
-      "@shared-types/*": ["../shared-types/src/*"],
-      "$lib": ["./src/lib"],
-      "$lib/*": ["./src/lib/*"]
-    }
+    "noEmit": true
   },
   "exclude": [
     "node_modules",

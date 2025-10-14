@@ -39,6 +39,7 @@
 		"@tailwindcss/container-queries": "^0.1.1",
 		"@tailwindcss/forms": "^0.5.9",
 		"@tailwindcss/typography": "^0.5.15",
+		"marked": "^16.4.0",
 		"svelte-hero-icons": "^5.2.0",
 		"valibot": "^1.1.0"
 	}
