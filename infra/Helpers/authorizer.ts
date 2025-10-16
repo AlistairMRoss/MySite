@@ -4,7 +4,7 @@ import { object, string } from 'valibot'
 
 const client = createClient({
   clientID: 'alistairmikeross-web',
-  issuer: 'https://auth.alistairmikeross.com'
+  issuer: 'https://ld4zovqhjb5ygpgtnovmvdtav40fwrdb.lambda-url.us-east-1.on.aws'
 })
 
 const subjects = createSubjects({
