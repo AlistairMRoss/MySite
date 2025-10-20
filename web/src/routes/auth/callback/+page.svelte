@@ -2,7 +2,7 @@
   import { onMount } from 'svelte'
   import { goto } from '$app/navigation'
   import { page } from '$app/stores'
-  import { authStore } from '$lib/stores/auth'
+  import { authStore } from '@fluss/auth'
 
   let loading = true
   let error = ''

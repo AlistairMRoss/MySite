@@ -1,0 +1,7 @@
+{
+    "auth": {
+        "CLIENT_ID": "alistairmikeross-web",
+        "AUTH_URL": "https://auth.alistairmikeross.com",
+        "REDIRECT_URL": "http://localhost:5173/auth/callback"
+    }
+}

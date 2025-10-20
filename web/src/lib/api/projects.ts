@@ -1,6 +1,6 @@
 import type { Project } from '@shared-types/index'
 import { API_V1 } from './config'
-import { authStore } from '$lib/stores/auth'
+import { authStore } from '@fluss/auth'
 import { get } from 'svelte/store'
 
 export const projectApi = {

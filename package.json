@@ -2,6 +2,7 @@
   "name": "mysite",
   "type": "module",
   "dependencies": {
+    "@fluss/auth": "^1.0.42",
     "sst": "3.17.12"
   },
   "devDependencies": {

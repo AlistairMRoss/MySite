@@ -2,12 +2,12 @@
   import { onMount } from 'svelte'
   import { fly } from 'svelte/transition'
   import { goto } from '$app/navigation'
-  import { authStore } from '$lib/stores/auth'
   import { projectStore, projects, projectsLoading } from '$lib/stores/projects'
   import AddProject from '$lib/components/projects/AddProject.svelte'
   import ViewProject from '$lib/components/projects/ViewProject.svelte'
   import type { Project } from '@shared-types/index'
   import EditProject from '$lib/components/projects/EditProject.svelte'
+  import { authStore } from '@fluss/auth'
   
   let isInverted = false
   let selectedCategory = 'All'

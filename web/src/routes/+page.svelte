@@ -2,8 +2,8 @@
   import { goto } from '$app/navigation'
   import { onMount } from 'svelte'
   import { fly } from 'svelte/transition'
-  import { authStore } from '$lib/stores/auth'
   import { get } from 'svelte/store'
+  import { authStore } from '@fluss/auth'
 
   let showWelcome = false
   let showNavigation = false
