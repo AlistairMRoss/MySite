@@ -5,5 +5,6 @@
 - fixed yarn lock and peer dependencies
 - fixed prerender
 - add yarnrc to deployment
+- new favicon
 
 #####
