@@ -10,7 +10,6 @@
     "resolveJsonModule": true,
     "allowJs": true,
     "declaration": true,
-    "baseUrl": ".",
     "paths": {
       "@shared-types/*": ["./shared-types/src/*"]
     },
@@ -24,7 +23,8 @@
   "references": [
     { "path": "./shared-types" },
     { "path": "./server/core" },
-    { "path": "./server/functions" }
   ],
   "exclude": ["node_modules", "dist", "build", ".svelte-kit"]
 }
+
+// Todo - update this
