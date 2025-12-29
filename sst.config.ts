@@ -21,7 +21,7 @@ export default $config({
     new sst.aws.StaticSite("web", {
       path: 'web',
       build: {
-        command: "yarn build",
+        command: "yarn install && yarn build",
         output: "dist"
       },
       domain: {
