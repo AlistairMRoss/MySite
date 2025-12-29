@@ -1,9 +1,9 @@
 <script lang='ts'>
-  import { goto } from '$app/navigation'
   import { onMount } from 'svelte'
   import { fly } from 'svelte/transition'
   import { authStore } from '$lib/stores/auth'
   import { get } from 'svelte/store'
+  import PageSection from '../components/PageSection.svelte'
 
   let showWelcome = false
   let showNavigation = false
@@ -28,7 +28,7 @@
 
   const downloadResume = async (): Promise<void> => {
     try {
-      const response = await fetch('https://alistair-ross-cv.s3.us-east-1.amazonaws.com/WhatsApp+Image+2025-08-18+at+10.58.50.jpeg')
+      const response = await fetch('https://alistair-ross-cv.s3.us-east-1.amazonaws.com/Alistair_Resume.pdf')
     
       if (!response.ok) {
         throw new Error('Failed to fetch resume')
@@ -47,7 +47,7 @@
       window.URL.revokeObjectURL(url)
     } catch (error) {
       console.error('Error downloading resume:', error)
-      window.open('https://alistair-ross-cv.s3.us-east-1.amazonaws.com/WhatsApp+Image+2025-08-18+at+10.58.50.jpeg', '_blank')
+      window.open('https://alistair-ross-cv.s3.us-east-1.amazonaws.com/Alistair_Resume.pdf', '_blank')
     }
   }
 
@@ -267,50 +267,30 @@
     {/if}
   </section>
 
-  <section class="py-[30rem] secondary-bg p-8 pt-20">
+  <section class="py-[10rem] secondary-bg p-8 pt-20">
     <div class="max-w-4xl mx-auto text-center">
       <h2 class="font-custom text-3xl md:text-4xl font-bold primary-text mb-8" id="about">About Me</h2>
-      <p class="font-custom primary-text text-lg leading-relaxed">My name is Alistair Ross. I am 23 years old, from Johannesburg, South Africa. I have an honours degree in Computer science
+      <p class="font-custom primary-text text-lg leading-relaxed">
+        My name is Alistair Ross. I am 23 years old, from Johannesburg, South Africa. I have an honours degree in Computer science
         from the University of Pretoria. I have been working for the last two year at Fluss Technologies, a startup based in Rosebank.
       </p>
     </div>
   </section>
 
-  <section class="font-custom py-40 tertiary-bg">
-    <div class="max-w-4xl mx-auto text-center px-8">
-      <h2 class="text-3xl md:text-4xl font-bold primary-text mb-6" id="projects">Things I've Done</h2>
-      <p class="text-lg secondary-text mb-8">
-        I can't promise much from this
-      </p>
-      <div class="text-center" in:fly={{ y: 30, duration: 600, delay: 600 }}>
-        <button
-          class="group relative primary-text border-2 button-border px-6 py-3 rounded-lg button-hover transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 mx-auto"
-          on:click={() => goto('/projects')}
-        >
-          <span class="text-lg font-medium">Explore All Projects</span>
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-          </svg>
-        </button>
-      </div>
-    </div>
-  </section>
+  <PageSection
+    title='Things I Have Done'
+    description="I can't promise much from this"
+    navigateTo="/projects"
+    naviageTitle='Explore All Projects'
+    bgColor="tertiary-bg"
+  />
+  
+  <PageSection
+    title='I Write Here Sometimes'
+    description="I try write whats on my mind sometimes... I can't promise its any good"
+    navigateTo="/blog"
+    naviageTitle='Read My Posts'
+    bgColor="secondary-bg"
+  />
 
-  <section class="font-custom py-40 secondary-bg">
-    <div class="max-w-4xl mx-auto text-center px-8">
-      <h2 class="text-3xl md:text-4xl font-bold primary-text mb-6" id="blog">I Write Here Sometimes</h2>
-      <p class="text-lg secondary-text mb-8">
-        I try write whats on my mind sometimes... I can't promise its any good
-      </p>
-      <button
-        class="group relative primary-text border-2 button-border px-6 py-3 rounded-lg button-hover transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 mx-auto"
-        on:click={() => window.location.href = '/blog'}
-      >
-        <span class="text-lg font-medium">Read My Posts</span>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-        </svg>
-      </button>
-    </div>
-  </section>
 </div>

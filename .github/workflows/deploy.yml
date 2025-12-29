@@ -1,0 +1,52 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'changelog.md'
+
+jobs:
+  deploy:
+    name: Deploy to ${{ github.ref_name }}
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22.19.0'
+      
+      - name: Enable Corepack
+        run: |
+          corepack enable
+          corepack prepare yarn@4.9.4 --activate
+          yarn --version
+      
+      - name: Install dependencies
+        run: yarn install
+      
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ github.ref_name == 'main' && 'af-south-1' }}
+      
+      - name: Deploy to environment
+        run: |
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            yarn sst deploy --stage=live
+          else
+            echo "No deployment configured for branch ${{ github.ref }}"
+            exit 1
+          fi
+
+
+
+
+      
