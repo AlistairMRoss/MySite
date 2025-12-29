@@ -13,6 +13,10 @@ declare module "sst" {
       "type": "sst.aws.ApiGatewayV2"
       "url": string
     }
+    "newApi": {
+      "type": "sst.aws.ApiGatewayV2"
+      "url": string
+    }
     "projects": {
       "name": string
       "type": "sst.aws.Dynamo"

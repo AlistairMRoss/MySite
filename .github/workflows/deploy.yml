@@ -26,6 +26,14 @@ jobs:
           corepack enable
           corepack prepare yarn@4.9.4 --activate
           yarn --version
+
+                
+      - name: Configure GitHub Packages authentication
+        run: |
+          echo "nodeLinker: node-modules" >> .yarnrc.yml.tmp
+          mv .yarnrc.yml.tmp .yarnrc.yml
+          cat .yarnrc.yml
+        
       
       - name: Install dependencies
         run: yarn install --immutable
