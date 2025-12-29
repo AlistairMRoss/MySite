@@ -3,5 +3,6 @@
 - Deployment script
 - download resume
 - fixed yarn lock and peer dependencies
+- fixed prerender
 
 ###
