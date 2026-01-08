@@ -7,11 +7,12 @@
   export let navigateTo: string
   export let naviageTitle: string
   export let bgColor: string
+  export let id: string
 </script>
 
 <section class="font-custom py-40 {bgColor}">
   <div class="max-w-4xl mx-auto text-center px-8">
-    <h2 class="text-3xl md:text-4xl font-bold primary-text mb-6" id="projects">{title}</h2>
+    <h2 class="text-3xl md:text-4xl font-bold primary-text mb-6" id={ id }>{title}</h2>
     <p class="text-lg secondary-text mb-8">
       {description}
     </p>

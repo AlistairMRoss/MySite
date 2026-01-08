@@ -283,6 +283,7 @@
     navigateTo="/projects"
     naviageTitle='Explore All Projects'
     bgColor="tertiary-bg"
+    id='projects'
   />
   
   <PageSection
@@ -291,6 +292,7 @@
     navigateTo="/blog"
     naviageTitle='Read My Posts'
     bgColor="secondary-bg"
+    id='blog'
   />
 
 </div>
