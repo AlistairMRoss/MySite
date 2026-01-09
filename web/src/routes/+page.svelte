@@ -75,22 +75,21 @@
     showNavigation = false
     showSocialLinks = false
     showInvertButton = false
-
     setTimeout(() => {
       showWelcome = true
     }, 100)
 
     setTimeout(() => {
       showNavigation = true
-    }, 800)
+    }, 100)
 
     setTimeout(() => {
       showSocialLinks = true
-    }, 1000)
+    }, 100)
 
     setTimeout(() => {
       showInvertButton = true
-    }, 1200)
+    }, 100)
   }
 
   const handleWelcomeClick = async(): Promise<void> => {
@@ -111,21 +110,10 @@
   }
 
   onMount(async() => {
-    setTimeout(() => {
-      showWelcome = true
-    }, 300)
-
-    setTimeout(() => {
-      showNavigation = true
-    }, 1000)
-
-    setTimeout(() => {
-      showSocialLinks = true
-    }, 1200)
-
-    setTimeout(() => {
-      showInvertButton = true
-    }, 1400)
+    showWelcome = true
+    showNavigation = true
+    showSocialLinks = true
+    showInvertButton = true
 
     const authState = get(authStore)
     const accessToken = authState.accessToken

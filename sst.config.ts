@@ -6,13 +6,7 @@ export default $config({
       name: 'mysite',
       removal: input?.stage === 'live' ? 'remove' : 'remove',
       protect: [''].includes(input?.stage),
-      home: 'aws',
-      // providers: input?.stage === "live" ? {
-      //   aws: {
-      //     profile: "my_site",
-      //     region: "af-south-1", 
-      //   }
-      // } : {}
+      home: 'aws'
     };
   },
   async run() {
