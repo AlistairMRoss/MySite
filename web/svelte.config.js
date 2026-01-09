@@ -10,7 +10,7 @@ const config = {
 			pages: 'dist',
 			assets: 'dist',
 			precompress: false,
-			fallback: 'app.html'
+			fallback: 'index.html'
 		}),
 		alias: {
 			'@shared-types': '../shared-types/src',

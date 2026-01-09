@@ -11,5 +11,6 @@
 - Made things less jittery
 - An issue with Pulumi?
 - There is an issue with Pulumi latest release: https://github.com/anomalyco/sst/issues/6314
+- must be index
 
 ######
