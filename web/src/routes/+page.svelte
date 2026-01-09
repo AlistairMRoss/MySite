@@ -260,7 +260,7 @@
       <h2 class="font-custom text-3xl md:text-4xl font-bold primary-text mb-8" id="about">About Me</h2>
       <p class="font-custom primary-text text-lg leading-relaxed">
         My name is Alistair Ross. I am 23 years old, from Johannesburg, South Africa. I have an honours degree in Computer science
-        from the University of Pretoria. I have been working for the last two year at Fluss Technologies, a startup based in Rosebank.
+        from the University of Pretoria.
       </p>
     </div>
   </section>

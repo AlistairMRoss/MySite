@@ -9,5 +9,6 @@
 
 # 09/01
 - Made things less jittery
+- An issue with Pulumi?
 
 ######
