@@ -10,4 +10,12 @@ function addAuthRoute(api: sst.aws.ApiGatewayV2, props: AuthRouteProps, authItem
   })
 }
 
-export { addAuthRoute }
+const auth = new sst.Linkable('authLinks', {
+  properties: {
+    MyAuth: 'https://auth.alistairmikeross.com',
+    redirect: 'https://api.live.alistairmikeross.com/redirect'
+    
+  }
+})
+
+export { addAuthRoute, auth}

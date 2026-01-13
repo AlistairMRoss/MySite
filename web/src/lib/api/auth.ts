@@ -15,7 +15,7 @@ export const authApi = {
   },
 
   async exchangeCodeForTokens(code: string): Promise<ExchangeSuccess | ExchangeError> {
-    const tokens = await client.exchange(code, REDIRECT_URI)
+    const tokens = await client.exchange(code, REDIRECT_URI) as ExchangeSuccess
     console.log(tokens)
     return tokens
   },

@@ -25,3 +25,7 @@ const authItem = {
 Api.route('GET /v1/projects', 'server/functions/src/projects/getProjects.handler')
 addAuthRoute(Api, { path: 'POST /v1/projects/add', handler: 'server/functions/src/projects/addProject.handler' }, authItem)
 addAuthRoute(Api, { path: 'DELETE /v1/project/{projectId}', handler: 'server/functions/src/projects/deleteProject.handler' }, authItem)
+
+
+// Auth
+Api.route('GET /auth/callback', 'server/functions/src/auth/callback.handler')
