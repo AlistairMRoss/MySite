@@ -8,6 +8,7 @@ export const projectApi = {
     try {
       const result = await fetch(`${API_V1}/projects`, {
         method: 'GET',
+        credentials: 'include'
       })
       
       const respObj = await result.json()

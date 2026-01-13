@@ -13,4 +13,7 @@
 - There is an issue with Pulumi latest release: https://github.com/anomalyco/sst/issues/6314
 - must be index
 
+# 13/01
+- I don't know how to auth
+
 ######

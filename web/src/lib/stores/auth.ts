@@ -42,11 +42,10 @@ function createAuthStore(): AuthStore {
 
     async handleAuthCallback(code: string): Promise<boolean> {
       try {
-        console.log('this is the code ', code)
         const tokenResponse = await authApi.exchangeCodeForTokens(code) as ExchangeSuccess
 
         const newState: AuthState = {
-          refreshToken: tokenResponse.tokens.refresh,
+          refreshToken: null,
           accessToken: tokenResponse.tokens.access,
           expiry: tokenResponse.tokens.expiresIn + Date.now(),
           isAuthenticated: true
