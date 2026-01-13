@@ -1,4 +1,3 @@
-import { ExchangeSuccess } from "@openauthjs/openauth/client"
 import { client } from "../../../core/src/auth/client"
 import { APIGatewayProxyHandlerV2 } from "aws-lambda"
 
@@ -32,7 +31,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     return {
       statusCode: 302,
       headers: {
-        Location: '/',
+        Location: 'https://alistairmikeross.com',
       },
       cookies: [accessCookie, refreshCookie],
       body: ''
