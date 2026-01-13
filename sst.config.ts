@@ -5,7 +5,7 @@ export default $config({
     return {
       name: 'mysite',
       removal: input?.stage === 'live' ? 'remove' : 'remove',
-      protect: [''].includes(input?.stage),
+      protect: ['live'].includes(input?.stage),
       home: 'aws'
     };
   },

@@ -6,6 +6,8 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
     const code = event.queryStringParameters?.code
 
+    console.log('recieved this code:', code)
+
     if (!code) {
       return {
         statusCode: 400,
@@ -14,6 +16,8 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     }
 
     const result = await client.exchange(code, 'https://api.live.alistairmikeross.com/auth/callback')
+
+    console.log(result)
     
     if (result.err) {
       return { statusCode: 401, body: "Invalid Code" };
@@ -23,7 +27,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       `access=${result.tokens.access}; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=${60 * 15}`
 
     const refreshCookie =
-      `refresh=${result.tokens.refresh}; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=${60 * 60 * 24 * 30}`
+      `refresh=${result.tokens.refresh}; HttpOnly; Secure; SameSitecd =Lax; Path=/; Max-Age=${60 * 60 * 24 * 30}`
 
     return {
       statusCode: 302,
