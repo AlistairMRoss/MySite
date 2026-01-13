@@ -1,33 +1,42 @@
-import { createClient, VerifyResult } from '@openauthjs/openauth/client'
-import { createSubjects } from '@openauthjs/openauth/subject'
-import { object, string } from 'valibot'
+import { client } from '../../server/core/src/auth/client'
+import { subjects } from '../../server/core/src/auth/subjects'
 
-const client = createClient({
-  clientID: 'alistairmikeross-web',
-  issuer: 'https://auth.alistairmikeross.com'
-})
-
-const subjects = createSubjects({
-  user: object({ email: string() })
-})
+const parseCookies = (cookieHeader: string | undefined): Record<string, string> => {
+  if (!cookieHeader) return {}
+  
+  return cookieHeader.split(';').reduce((cookies, cookie) => {
+    const [name, ...rest] = cookie.trim().split('=')
+    if (name && rest.length > 0) {
+      cookies[name] = rest.join('=')
+    }
+    return cookies
+  }, {} as Record<string, string>)
+}
 
 export const handler = async (event: any) => {
-  console.log('Attempting to authorize')
+  const cookieHeader = event.headers?.cookie || 
+                       event.headers?.Cookie ||
+                       event.headers?.COOKIE
   
-  const token = event.headers?.authorization?.replace('Bearer ', '') || 
-                event.authorizationToken?.replace('Bearer ', '')
+  if (!cookieHeader) {
+    console.error('No cookie header provided')
+    throw new Error('Unauthorized')
+  }
+  
+  const cookies = parseCookies(cookieHeader)
+  const token = cookies['access_token'] || cookies['accessToken']
   
   if (!token) {
-    console.error('No token provided')
-    throw new Error('Unauthorized') 
+    console.error('No access token found in cookies')
+    throw new Error('Unauthorized')
   }
   
   try {
     const verified = await client.verify(subjects, token)
-    console.log('Verified:', verified)
+    console.log('Verified User:', verified)
     
     const policy = {
-        // @ts-ignore
+      // @ts-ignore
       principalId: verified.subject.properties.email || 'user',
       policyDocument: {
         Version: '2012-10-17',
@@ -47,10 +56,9 @@ export const handler = async (event: any) => {
       }
     }
     
-    console.log('Returning policy:', JSON.stringify(policy, null, 2))
     return policy
   } catch (err: any) {
-    console.log('Error validating token:', err)
-    throw new Error('Forbidden')
+    console.error('Error validating token:', err.message)
+    throw new Error('Unauthorized')
   }
 }
