@@ -1,9 +1,19 @@
 import { addAuthRoute } from './Helpers/ApiHelpers'
 import { projectsTable } from './Dynamo'
 
+const webOrigin = $app.stage === 'live'
+    ? 'https://alistairmikeross.com'
+    : `https://${$app.stage}.alistairmikeross.com`
+
 const Api = new sst.aws.ApiGatewayV2('api', {
     link: [projectsTable],
     domain: `api.${$app.stage}.alistairmikeross.com`,
+    cors: {
+        allowOrigins: [webOrigin],
+        allowMethods: ['GET', 'POST', 'DELETE', 'OPTIONS'],
+        allowHeaders: ['Content-Type', 'Authorization'],
+        allowCredentials: true,
+    },
 })
 
 const authorizerFunction = new sst.aws.Function('AuthorizerFunction', {
