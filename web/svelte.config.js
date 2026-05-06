@@ -9,7 +9,7 @@ const config = {
 		adapter: adapter({
 			pages: 'dist',
 			assets: 'dist',
-			precompress: false,
+			precompress: true,
 			fallback: 'index.html'
 		}),
 		alias: {
