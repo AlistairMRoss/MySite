@@ -1,33 +1,19 @@
 import { client } from '../../server/core/src/auth/client'
 import { subjects } from '../../server/core/src/auth/subjects'
 
-const parseCookies = (cookieHeader: string | undefined): Record<string, string> => {
-  if (!cookieHeader) return {}
-  
-  return cookieHeader.split(';').reduce((cookies, cookie) => {
-    const [name, ...rest] = cookie.trim().split('=')
-    if (name && rest.length > 0) {
-      cookies[name] = rest.join('=')
-    }
-    return cookies
-  }, {} as Record<string, string>)
-}
-
 export const handler = async (event: any) => {
-  const cookieHeader = event.headers?.cookie || 
-                       event.headers?.Cookie ||
-                       event.headers?.COOKIE
-  
-  if (!cookieHeader) {
-    console.error('No cookie header provided')
+  const authHeader: string | undefined =
+    event.headers?.authorization || event.headers?.Authorization
+
+  if (!authHeader || !authHeader.toLowerCase().startsWith('bearer ')) {
+    console.error('Missing or malformed Authorization header')
     throw new Error('Unauthorized')
   }
-  
-  const cookies = parseCookies(cookieHeader)
-  const token = cookies['access_token'] || cookies['accessToken']
-  
+
+  const token = authHeader.slice('bearer '.length).trim()
+
   if (!token) {
-    console.error('No access token found in cookies')
+    console.error('No access token found in Authorization header')
     throw new Error('Unauthorized')
   }
   
