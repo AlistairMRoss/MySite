@@ -28,3 +28,4 @@
 - stylign
 - Fixing cv
 - blog stuff
+- yarn fix
