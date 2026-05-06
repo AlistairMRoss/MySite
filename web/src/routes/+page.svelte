@@ -11,9 +11,12 @@
   let showInvertButton = false
   let isInverted = false
   let showEmailCopied = false
-  
+  let showResume = false
+
   let clickCount = 0
   let firstClickTime = 0
+
+  const resumeUrl = 'https://alistair-ross-cv.s3.us-east-1.amazonaws.com/Alistair_Resume.pdf'
 
   const smoothScrollTo = (elementId: string): void => {
     const element = document.getElementById(elementId)
@@ -26,29 +29,41 @@
     }
   }
 
+  const openResume = (): void => {
+    showResume = true
+  }
+
+  const closeResume = (): void => {
+    showResume = false
+  }
+
   const downloadResume = async (): Promise<void> => {
     try {
-      const response = await fetch('https://alistair-ross-cv.s3.us-east-1.amazonaws.com/Alistair_Resume.pdf')
-    
+      const response = await fetch(resumeUrl)
+
       if (!response.ok) {
         throw new Error('Failed to fetch resume')
       }
-    
+
       const blob = await response.blob()
       const url = window.URL.createObjectURL(blob)
-    
+
       const link = document.createElement('a')
       link.href = url
-      link.download = 'Alistair_Ross_Resume.jpeg'
+      link.download = 'Alistair_Ross_Resume.pdf'
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
-    
+
       window.URL.revokeObjectURL(url)
     } catch (error) {
       console.error('Error downloading resume:', error)
-      window.open('https://alistair-ross-cv.s3.us-east-1.amazonaws.com/Alistair_Resume.pdf', '_blank')
+      window.open(resumeUrl, '_blank')
     }
+  }
+
+  const handleResumeKeydown = (e: KeyboardEvent): void => {
+    if (e.key === 'Escape') closeResume()
   }
 
   const copyEmailToClipboard = (): void => {
@@ -131,7 +146,54 @@
   <meta name="description" content="I dont know" />
 </svelte:head>
 
+<svelte:window on:keydown={handleResumeKeydown} />
+
 <div class="{isInverted ? 'inverted' : ''}">
+  {#if showResume}
+    <!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
+    <div
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 md:p-8"
+      on:click={closeResume}
+      in:fly={{ y: 20, duration: 200 }}
+    >
+      <!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
+      <div
+        class="primary-bg relative flex h-full w-full max-w-5xl flex-col overflow-hidden rounded-lg border button-border shadow-2xl"
+        on:click|stopPropagation
+      >
+        <div class="flex items-center justify-between border-b button-border px-4 py-3">
+          <h2 class="font-custom primary-text text-lg font-bold">Resume</h2>
+          <div class="flex items-center space-x-2">
+            <button
+              on:click={downloadResume}
+              class="font-custom primary-text button-hover border button-border rounded-md px-3 py-1.5 text-sm font-medium transition-all duration-200 flex items-center space-x-2"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              <span>Download</span>
+            </button>
+            <!-- svelte-ignore a11y_consider_explicit_label -->
+            <button
+              on:click={closeResume}
+              class="primary-text button-hover border button-border rounded-md p-1.5 transition-all duration-200"
+              title="Close"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <iframe
+          src="{resumeUrl}#toolbar=0&navpanes=0"
+          title="Alistair Ross Resume"
+          class="h-full w-full flex-1 bg-white"
+        ></iframe>
+      </div>
+    </div>
+  {/if}
+
   {#if showEmailCopied}
     <div class="font-custom fixed top-4 left-1/2 transform -translate-x-1/2 z-50 {isInverted ? 'bg-green-50 text-green-800 border-green-200' : 'bg-green-900 text-green-100 border-green-800'} border px-4 py-2 rounded-lg shadow-lg"
       in:fly={{ y: -50, duration: 300 }}
@@ -189,11 +251,11 @@
             </li>
             <li>
               <button
-                on:click={downloadResume}
+                on:click={openResume}
                 class="font-custom group relative primary-text text-2xl font-bold py-4 px-8 button-hover transition-all duration-300 transform hover:scale-105 cursor-pointer flex items-center space-x-2"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
                 <span>Resume</span>
                 <span class="absolute bottom-0 left-0 w-0 h-0.5 underline-color group-hover:w-full transition-all duration-300"></span>
