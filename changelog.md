@@ -20,4 +20,5 @@
 # 06/05
 - Better cv looking
 
-#
+# 06/05
+- Fixing auth

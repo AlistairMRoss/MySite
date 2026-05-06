@@ -45,7 +45,7 @@ function createAuthStore(): AuthStore {
         const tokenResponse = await authApi.exchangeCodeForTokens(code) as ExchangeSuccess
 
         const newState: AuthState = {
-          refreshToken: null,
+          refreshToken: tokenResponse.tokens.refresh,
           accessToken: tokenResponse.tokens.access,
           expiry: tokenResponse.tokens.expiresIn + Date.now(),
           isAuthenticated: true

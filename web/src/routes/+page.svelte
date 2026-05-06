@@ -134,8 +134,8 @@
     const accessToken = authState.accessToken
     if (accessToken) {
       const verified = await authStore.verifyTokens(accessToken)
-      if (!verified) {
-        await authStore.refreshToken(authState.refreshToken as string)
+      if (!verified && authState.refreshToken) {
+        await authStore.refreshToken(authState.refreshToken)
       }
     }
   })
