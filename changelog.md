@@ -17,4 +17,6 @@
 - I don't know how to auth
 - I really dont know how to auth
 
-#########
+# 06/05
+- Better cv looking
+
