@@ -22,3 +22,4 @@
 
 # 06/05
 - Fixing auth
+- Fixing authoriser
