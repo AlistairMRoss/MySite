@@ -31,3 +31,4 @@
 - yarn fix
 - Final fixes
 - cool mouse thing
+- updating email sender

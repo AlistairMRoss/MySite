@@ -2,49 +2,49 @@ import { addAuthRoute } from './Helpers/ApiHelpers'
 import { projectsTable, blogsTable, subscribersTable } from './Dynamo'
 
 const webOrigin = $app.stage === 'live'
-    ? 'https://alistairmikeross.com'
-    : `https://${$app.stage}.alistairmikeross.com`
+	? 'https://alistairmikeross.com'
+	: `https://${$app.stage}.alistairmikeross.com`
 
-const emailSender = 'noreply@alistairmikeross.com'
+const emailSender = 'noreply@notifications.alistairmikeross.com'
 
 // Defaults for every Lambda in the app — env vars + SES send permission
 $transform(sst.aws.Function, (args) => {
-    args.environment = {
-        ...((args.environment as Record<string, string>) ?? {}),
-        EMAIL_SENDER: emailSender,
-        WEB_ORIGIN: webOrigin,
-    }
-    args.permissions = [
-        ...((args.permissions as { actions: string[]; resources: string[] }[]) ?? []),
-        { actions: ['ses:SendEmail'], resources: ['*'] }
-    ]
+	args.environment = {
+		...((args.environment as Record<string, string>) ?? {}),
+		EMAIL_SENDER: emailSender,
+		WEB_ORIGIN: webOrigin,
+	}
+	args.permissions = [
+		...((args.permissions as { actions: string[]; resources: string[] }[]) ?? []),
+		{ actions: ['ses:SendEmail'], resources: ['*'] }
+	]
 })
 
 const Api = new sst.aws.ApiGatewayV2('api', {
-    link: [projectsTable, blogsTable, subscribersTable],
-    domain: `api.${$app.stage}.alistairmikeross.com`,
-    cors: {
-        allowOrigins: [webOrigin],
-        allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-        allowHeaders: ['Content-Type', 'Authorization'],
-        allowCredentials: true,
-    },
+	link: [projectsTable, blogsTable, subscribersTable],
+	domain: `api.${$app.stage}.alistairmikeross.com`,
+	cors: {
+		allowOrigins: [webOrigin],
+		allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+		allowHeaders: ['Content-Type', 'Authorization'],
+		allowCredentials: true,
+	},
 })
 
 const authorizerFunction = new sst.aws.Function('AuthorizerFunction', {
-  handler: 'infra/Helpers/authorizer.handler',
+	handler: 'infra/Helpers/authorizer.handler',
 })
 
 const authorizer = Api.addAuthorizer({
-    name: 'Auth',
-    lambda: {
-      function: authorizerFunction.arn,
-      response: 'iam'
-    }
+	name: 'Auth',
+	lambda: {
+		function: authorizerFunction.arn,
+		response: 'iam'
+	}
 })
 
 const authItem = {
-  lambda: authorizer.id
+	lambda: authorizer.id
 }
 
 Api.route('GET /v1/projects', 'server/functions/src/projects/getProjects.handler')
