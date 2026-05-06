@@ -27,3 +27,4 @@
 - Fixing update project
 - stylign
 - Fixing cv
+- blog stuff

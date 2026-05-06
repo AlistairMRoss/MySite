@@ -100,13 +100,45 @@
 .accent-border { border-color: var(--accent); }
 .accent-hover-bg:hover { background-color: var(--accent-strong); }
 
-/* Hero glow — soft radial accent behind welcome / hero sections */
-.hero-glow {
-  position: relative;
+/* Subtle dot grid — adds texture to flat sections without color noise */
+.dot-grid {
   background-color: var(--primary-bg);
-  background-image:
-    radial-gradient(ellipse 70% 50% at 50% 35%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 70%),
-    radial-gradient(ellipse 40% 30% at 80% 90%, color-mix(in srgb, var(--accent) 6%, transparent), transparent 70%);
+  background-image: radial-gradient(
+    color-mix(in srgb, var(--primary-text) 6%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 28px 28px;
+  background-position: -1px -1px;
+  position: relative;
+}
+.dot-grid::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 30%,
+    var(--primary-bg) 80%
+  );
+  pointer-events: none;
+}
+
+/* Accent eyebrow text — small pill-like label above headings */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.eyebrow::before {
+  content: '';
+  width: 1.5rem;
+  height: 1px;
+  background: var(--accent);
 }
 
 /* Themed inputs — pick up theme bg/border/text */

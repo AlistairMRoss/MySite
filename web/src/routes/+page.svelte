@@ -202,7 +202,7 @@
     </div>
   {/if}
 
-  <section class="font-custom welcome-section hero-glow min-h-screen flex flex-col items-center justify-center p-8 relative">
+  <section class="font-custom welcome-section dot-grid min-h-screen flex flex-col items-center justify-center p-8 relative overflow-hidden">
     {#if showWelcome}
       <!-- svelte-ignore a11y_no_noninteractive_element_to_interactive_role -->
       <!-- eslint-disable-next-line svelte/valid-compile -->
@@ -317,31 +317,36 @@
     {/if}
   </section>
 
-  <section class="py-[10rem] secondary-bg p-8 pt-20">
-    <div class="max-w-4xl mx-auto text-center">
-      <h2 class="font-custom text-3xl md:text-4xl font-bold primary-text mb-8" id="about">About Me</h2>
-      <p class="font-custom secondary-text text-lg leading-relaxed">
-        My name is Alistair Ross. I am 23 years old, from Johannesburg, South Africa. I have an honours degree in Computer science
-        from the University of Pretoria.
-      </p>
+  <section class="py-24 primary-bg px-4 md:px-8" id="about">
+    <div class="max-w-4xl mx-auto">
+      <div class="card-bg border button-border rounded-2xl px-6 py-16 md:px-16 md:py-20 text-center">
+        <span class="eyebrow mb-4">Introduction</span>
+        <h2 class="font-custom text-3xl md:text-5xl font-bold primary-text mb-6 mt-4">About Me</h2>
+        <p class="font-custom secondary-text text-lg leading-relaxed max-w-2xl mx-auto">
+          My name is Alistair Ross. I am 23 years old, from Johannesburg, South Africa. I have an honours degree in Computer science
+          from the University of Pretoria.
+        </p>
+      </div>
     </div>
   </section>
 
   <PageSection
+    eyebrow='Selected Work'
     title='Things I Have Done'
     description="I can't promise much from this"
     navigateTo="/projects"
     naviageTitle='Explore All Projects'
-    bgColor="tertiary-bg"
+    bgColor="primary-bg"
     id='projects'
   />
-  
+
   <PageSection
+    eyebrow='Writing'
     title='I Write Here Sometimes'
     description="I try write whats on my mind sometimes... I can't promise its any good"
     navigateTo="/blog"
     naviageTitle='Read My Posts'
-    bgColor="secondary-bg"
+    bgColor="primary-bg"
     id='blog'
   />
 

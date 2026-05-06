@@ -1,34 +1,27 @@
 import { type APIGatewayProxyHandlerV2, type APIGatewayProxyResultV2 } from 'aws-lambda'
-import { getBlog } from '../../../core/src/blog'
+import { removeSubscriberByToken } from '../../../core/src/subscribers'
 
 export const handler: APIGatewayProxyHandlerV2 = async (event): Promise<APIGatewayProxyResultV2> => {
     try {
-        const blogId = event.pathParameters?.blogId
-        if (!blogId) {
+        const token = event.pathParameters?.token
+        if (!token) {
             return {
                 statusCode: 400,
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ error: 'Missing blogId' })
+                body: JSON.stringify({ error: 'Missing token' })
             }
         }
 
-        const blog = await getBlog(blogId)
-        if (!blog) {
-            return {
-                statusCode: 404,
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ error: 'Blog not found' })
-            }
-        }
+        const removed = await removeSubscriberByToken(token)
 
         return {
             statusCode: 200,
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ result: blog })
+            body: JSON.stringify({ result: { removed } })
         }
     } catch (err: any) {
         return {
-            statusCode: err.statusCode || 500,
+            statusCode: 500,
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ error: err.message })
         }

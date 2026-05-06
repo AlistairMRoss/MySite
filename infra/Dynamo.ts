@@ -5,4 +5,22 @@ const projectsTable = new sst.aws.Dynamo('projects', {
     primaryIndex: { hashKey: 'projectId'}
 })
 
-export { projectsTable }
+const blogsTable = new sst.aws.Dynamo('blogs', {
+    fields: {
+        blogId: 'string'
+    },
+    primaryIndex: { hashKey: 'blogId' }
+})
+
+const subscribersTable = new sst.aws.Dynamo('subscribers', {
+    fields: {
+        email: 'string',
+        unsubscribeToken: 'string'
+    },
+    primaryIndex: { hashKey: 'email' },
+    globalIndexes: {
+        ByUnsubscribeToken: { hashKey: 'unsubscribeToken' }
+    }
+})
+
+export { projectsTable, blogsTable, subscribersTable }
