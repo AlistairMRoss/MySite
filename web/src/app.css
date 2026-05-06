@@ -110,11 +110,13 @@
   background-size: 28px 28px;
   background-position: -1px -1px;
   position: relative;
+  isolation: isolate;
 }
 .dot-grid::after {
   content: '';
   position: absolute;
   inset: 0;
+  z-index: -1;
   background: radial-gradient(
     ellipse at center,
     transparent 30%,
@@ -123,22 +125,14 @@
   pointer-events: none;
 }
 
-/* Accent eyebrow text — small pill-like label above headings */
+/* Accent eyebrow text — small uppercase label above headings */
 .eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
+  display: inline-block;
   font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--accent);
-}
-.eyebrow::before {
-  content: '';
-  width: 1.5rem;
-  height: 1px;
-  background: var(--accent);
 }
 
 /* Themed inputs — pick up theme bg/border/text */

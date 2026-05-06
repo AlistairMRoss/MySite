@@ -49,6 +49,15 @@ jobs:
         uses: pulumi/actions@v5
         with:
           pulumi-version: 3.138.0  
+
+      - name: Cache SST state
+        uses: actions/cache@v4
+        with:
+          path: |
+            .sst
+          key: sst-state-live-${{ github.run_id }}
+          restore-keys: |
+            sst-state-live-
       
       - name: Deploy to environment
         run: yarn sst deploy --stage=live

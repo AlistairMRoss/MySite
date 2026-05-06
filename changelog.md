@@ -29,3 +29,4 @@
 - Fixing cv
 - blog stuff
 - yarn fix
+- Final fixes

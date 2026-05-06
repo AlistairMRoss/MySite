@@ -2,6 +2,7 @@
   import { onMount } from 'svelte'
   import { fly } from 'svelte/transition'
   import { authStore } from '$lib/stores/auth'
+  import { themeInverted } from '$lib/stores/theme'
   import { get } from 'svelte/store'
   import PageSection from '../components/PageSection.svelte'
 
@@ -9,7 +10,6 @@
   let showNavigation = false
   let showSocialLinks = false
   let showInvertButton = false
-  let isInverted = false
   let showEmailCopied = false
   let showResume = false
 
@@ -85,24 +85,15 @@
   }
 
   const toggleInvert = (): void => {
-    isInverted = !isInverted
+    themeInverted.toggle()
     showWelcome = false
     showNavigation = false
     showSocialLinks = false
     showInvertButton = false
     setTimeout(() => {
       showWelcome = true
-    }, 100)
-
-    setTimeout(() => {
       showNavigation = true
-    }, 100)
-
-    setTimeout(() => {
       showSocialLinks = true
-    }, 100)
-
-    setTimeout(() => {
       showInvertButton = true
     }, 100)
   }
@@ -148,7 +139,7 @@
 
 <svelte:window on:keydown={handleResumeKeydown} />
 
-<div class="{isInverted ? 'inverted' : ''}">
+<div>
   {#if showResume}
     <!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
     <div
@@ -195,7 +186,7 @@
   {/if}
 
   {#if showEmailCopied}
-    <div class="font-custom fixed top-4 left-1/2 transform -translate-x-1/2 z-50 {isInverted ? 'bg-green-50 text-green-800 border-green-200' : 'bg-green-900 text-green-100 border-green-800'} border px-4 py-2 rounded-lg shadow-lg"
+    <div class="font-custom fixed top-4 left-1/2 transform -translate-x-1/2 z-50 card-bg primary-text border button-border px-4 py-2 rounded-lg shadow-lg"
       in:fly={{ y: -50, duration: 300 }}
       out:fly={{ y: -50, duration: 300 }}>
       📧 Email address copied to clipboard!
@@ -317,16 +308,14 @@
     {/if}
   </section>
 
-  <section class="py-24 primary-bg px-4 md:px-8" id="about">
-    <div class="max-w-4xl mx-auto">
-      <div class="card-bg border button-border rounded-2xl px-6 py-16 md:px-16 md:py-20 text-center">
-        <span class="eyebrow mb-4">Introduction</span>
-        <h2 class="font-custom text-3xl md:text-5xl font-bold primary-text mb-6 mt-4">About Me</h2>
-        <p class="font-custom secondary-text text-lg leading-relaxed max-w-2xl mx-auto">
-          My name is Alistair Ross. I am 23 years old, from Johannesburg, South Africa. I have an honours degree in Computer science
-          from the University of Pretoria.
-        </p>
-      </div>
+  <section class="py-32 md:py-40 primary-bg px-8" id="about">
+    <div class="max-w-4xl mx-auto text-center">
+      <span class="eyebrow mb-4">Introduction</span>
+      <h2 class="font-custom text-3xl md:text-5xl font-bold primary-text mb-6 mt-4">About Me</h2>
+      <p class="font-custom secondary-text text-lg leading-relaxed max-w-2xl mx-auto">
+        My name is Alistair Ross. I am 23 years old, from Johannesburg, South Africa. I have an honours degree in Computer science
+        from the University of Pretoria.
+      </p>
     </div>
   </section>
 

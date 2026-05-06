@@ -8,8 +8,8 @@
   import ViewProject from '$lib/components/projects/ViewProject.svelte'
   import type { Project } from '@shared-types/index'
   import EditProject from '$lib/components/projects/EditProject.svelte'
-  
-  let isInverted = false
+  import { themeInverted } from '$lib/stores/theme'
+
   let selectedCategory = 'All'
   let allCategories: string[] = ['All']
   let showAddModal = false
@@ -33,7 +33,7 @@
   }
   
   const toggleInvert = () => {
-    isInverted = !isInverted
+    themeInverted.toggle()
   }
   
   const getStatusClass = (status: string) => {
@@ -97,7 +97,7 @@
   <meta name="description" content="A collection of my development projects and experiments." />
 </svelte:head>
 
-<div class="min-h-screen primary-bg {isInverted ? 'inverted' : ''}">
+<div class="min-h-screen primary-bg">
   <header class="relative secondary-bg p-8">
     <div class="max-w-6xl mx-auto flex justify-between items-center">
       <button
