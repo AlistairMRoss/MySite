@@ -100,17 +100,35 @@
 .accent-border { border-color: var(--accent); }
 .accent-hover-bg:hover { background-color: var(--accent-strong); }
 
-/* Subtle dot grid — adds texture to flat sections without color noise */
+/* Subtle dot grid + cursor-tracking accent glow */
 .dot-grid {
+  --mouse-x: 50%;
+  --mouse-y: 30%;
+  --glow-opacity: 0;
   background-color: var(--primary-bg);
-  background-image: radial-gradient(
-    color-mix(in srgb, var(--primary-text) 6%, transparent) 1px,
-    transparent 1px
-  );
+  background-image:
+    radial-gradient(
+      color-mix(in srgb, var(--primary-text) 6%, transparent) 1px,
+      transparent 1px
+    );
   background-size: 28px 28px;
   background-position: -1px -1px;
   position: relative;
   isolation: isolate;
+}
+.dot-grid::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: radial-gradient(
+    circle 420px at var(--mouse-x) var(--mouse-y),
+    color-mix(in srgb, var(--accent) 14%, transparent),
+    transparent 70%
+  );
+  opacity: var(--glow-opacity);
+  transition: opacity 400ms ease;
+  pointer-events: none;
 }
 .dot-grid::after {
   content: '';
@@ -120,7 +138,7 @@
   background: radial-gradient(
     ellipse at center,
     transparent 30%,
-    var(--primary-bg) 80%
+    var(--primary-bg) 85%
   );
   pointer-events: none;
 }

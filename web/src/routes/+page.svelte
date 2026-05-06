@@ -98,6 +98,25 @@
     }, 100)
   }
 
+  let glowFrame = 0
+  const handleHeroMouseMove = (e: MouseEvent): void => {
+    const target = e.currentTarget as HTMLElement
+    const rect = target.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    if (glowFrame) cancelAnimationFrame(glowFrame)
+    glowFrame = requestAnimationFrame(() => {
+      target.style.setProperty('--mouse-x', `${x}px`)
+      target.style.setProperty('--mouse-y', `${y}px`)
+      target.style.setProperty('--glow-opacity', '1')
+    })
+  }
+
+  const handleHeroMouseLeave = (e: MouseEvent): void => {
+    const target = e.currentTarget as HTMLElement
+    target.style.setProperty('--glow-opacity', '0')
+  }
+
   const handleWelcomeClick = async(): Promise<void> => {
     const currentTime = Date.now()
   
@@ -193,7 +212,12 @@
     </div>
   {/if}
 
-  <section class="font-custom welcome-section dot-grid min-h-screen flex flex-col items-center justify-center p-8 relative overflow-hidden">
+  <!-- svelte-ignore a11y_no_static_element_interactions -->
+  <section
+    class="font-custom welcome-section dot-grid min-h-screen flex flex-col items-center justify-center p-8 relative overflow-hidden"
+    on:mousemove={handleHeroMouseMove}
+    on:mouseleave={handleHeroMouseLeave}
+  >
     {#if showWelcome}
       <!-- svelte-ignore a11y_no_noninteractive_element_to_interactive_role -->
       <!-- eslint-disable-next-line svelte/valid-compile -->
