@@ -1,5 +1,5 @@
 import { type APIGatewayProxyHandlerV2WithJWTAuthorizer, type APIGatewayProxyEventV2WithJWTAuthorizer, type APIGatewayProxyResultV2 } from 'aws-lambda'
-import { addProject } from '../../../core/src/projects/index'
+import { updateProject } from '../../../core/src/projects/index'
 
 export const handler: APIGatewayProxyHandlerV2WithJWTAuthorizer = async (event: APIGatewayProxyEventV2WithJWTAuthorizer): Promise<APIGatewayProxyResultV2> => {
   try {
@@ -11,8 +11,17 @@ export const handler: APIGatewayProxyHandlerV2WithJWTAuthorizer = async (event: 
       }
     }
 
+    const projectId = event.pathParameters?.projectId
+    if (!projectId) {
+      return {
+        statusCode: 400,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ error: 'Missing projectId in path' })
+      }
+    }
+
     const data = JSON.parse(event.body)
-    const result = await addProject(data.project)
+    const result = await updateProject({ ...data.project, projectId })
     return {
       statusCode: 200,
       headers: { 'Content-Type': 'application/json' },

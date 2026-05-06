@@ -27,7 +27,7 @@
 {#if showBackToTop}
   <button
     on:click={scrollToTop}
-    class="fixed bottom-6 right-6 bg-gray-800 hover:bg-gray-600 text-white p-3 rounded-full shadow-lg transition-all duration-300 z-50 flex items-center justify-center"
+    class="fixed bottom-6 right-6 card-bg primary-text border button-border card-hover p-3 rounded-full shadow-lg transition-all duration-300 z-50 flex items-center justify-center"
     aria-label="Back to top"
     transition:fade={{ duration: 300 }}
   >

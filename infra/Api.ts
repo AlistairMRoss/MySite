@@ -10,7 +10,7 @@ const Api = new sst.aws.ApiGatewayV2('api', {
     domain: `api.${$app.stage}.alistairmikeross.com`,
     cors: {
         allowOrigins: [webOrigin],
-        allowMethods: ['GET', 'POST', 'DELETE', 'OPTIONS'],
+        allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
         allowHeaders: ['Content-Type', 'Authorization'],
         allowCredentials: true,
     },
@@ -34,4 +34,5 @@ const authItem = {
 
 Api.route('GET /v1/projects', 'server/functions/src/projects/getProjects.handler')
 addAuthRoute(Api, { path: 'POST /v1/projects/add', handler: 'server/functions/src/projects/addProject.handler' }, authItem)
+addAuthRoute(Api, { path: 'PUT /v1/project/{projectId}', handler: 'server/functions/src/projects/updateProject.handler' }, authItem)
 addAuthRoute(Api, { path: 'DELETE /v1/project/{projectId}', handler: 'server/functions/src/projects/deleteProject.handler' }, authItem)

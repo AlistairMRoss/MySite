@@ -92,12 +92,46 @@
   color: var(--button-hover-text);
 }
 .card-hover:hover { background-color: var(--card-hover-bg); }
+.hover-primary-text:hover { color: var(--primary-text); }
 .underline-color { background-color: var(--underline-color); }
 .social-hover:hover { background-color: var(--social-hover-bg); }
 .accent-bg { background-color: var(--accent); }
 .accent-text { color: var(--accent); }
 .accent-border { border-color: var(--accent); }
 .accent-hover-bg:hover { background-color: var(--accent-strong); }
+
+/* Themed inputs — pick up theme bg/border/text */
+.themed-input {
+  background-color: var(--primary-bg);
+  color: var(--primary-text);
+  border-color: var(--card-border);
+}
+.themed-input::placeholder { color: var(--secondary-text); }
+.themed-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+/* Theme-aware Tailwind Typography overrides */
+.prose-themed {
+  --tw-prose-body: var(--secondary-text);
+  --tw-prose-headings: var(--primary-text);
+  --tw-prose-lead: var(--secondary-text);
+  --tw-prose-links: var(--accent);
+  --tw-prose-bold: var(--primary-text);
+  --tw-prose-counters: var(--secondary-text);
+  --tw-prose-bullets: var(--secondary-text);
+  --tw-prose-hr: var(--card-border);
+  --tw-prose-quotes: var(--secondary-text);
+  --tw-prose-quote-borders: var(--card-border);
+  --tw-prose-captions: var(--secondary-text);
+  --tw-prose-code: var(--primary-text);
+  --tw-prose-pre-code: var(--primary-text);
+  --tw-prose-pre-bg: var(--secondary-bg);
+  --tw-prose-th-borders: var(--card-border);
+  --tw-prose-td-borders: var(--card-border);
+}
 
 .success-notification {
   background-color: var(--success-bg);

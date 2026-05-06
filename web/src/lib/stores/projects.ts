@@ -12,7 +12,7 @@ interface ProjectStore {
   subscribe: Writable<ProjectStoreData>['subscribe']
   loadProjects(): Promise<void>
   addProject(projectData?: Partial<Project>): Promise<Project>
-  updateProject(updatedProject: Project): void
+  updateProject(updatedProject: Project): Promise<boolean>
   removeProject(projectId: string): void
   clearError(): void
   reset(): void
@@ -74,13 +74,32 @@ function createProjectStore(): ProjectStore {
       }
     },
 
-    updateProject(updatedProject: Project): void {
-      update(state => ({
-        ...state,
-        projects: state.projects.map(project => 
-          project.projectId === updatedProject.projectId ? updatedProject : project
-        )
-      }))
+    async updateProject(updatedProject: Project): Promise<boolean> {
+      update(state => ({ ...state, loading: true, error: null }))
+
+      try {
+        const ok = await projectApi.updateProject(updatedProject)
+        if (!ok) {
+          update(state => ({ ...state, loading: false, error: 'Failed to update project' }))
+          return false
+        }
+
+        update(state => ({
+          ...state,
+          loading: false,
+          projects: state.projects.map(project =>
+            project.projectId === updatedProject.projectId ? updatedProject : project
+          )
+        }))
+        return true
+      } catch (error) {
+        update(state => ({
+          ...state,
+          loading: false,
+          error: error instanceof Error ? error.message : 'Failed to update project'
+        }))
+        throw error
+      }
     },
 
     async removeProject(projectId: string): Promise<void> {

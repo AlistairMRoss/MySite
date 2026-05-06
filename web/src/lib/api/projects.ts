@@ -46,6 +46,35 @@ export const projectApi = {
     }
   },
 
+  async updateProject(project: Project): Promise<boolean> {
+    if (!project.projectId) {
+      throw new Error('updateProject requires an existing projectId')
+    }
+    try {
+      const authState = get(authStore)
+      const accessToken = authState.accessToken
+      const result = await fetch(`${API_V1}/project/${project.projectId}`, {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ project })
+      })
+
+      if (result.status === 401) {
+        console.log('you are unauthorised you silly billy')
+        return false
+      }
+
+      return result.ok
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      console.error(err)
+      throw err
+    }
+  },
+
   async removeProject(projectId: string): Promise<boolean> {
     try {
       const authState = get(authStore)

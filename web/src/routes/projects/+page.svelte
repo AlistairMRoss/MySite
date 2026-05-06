@@ -69,8 +69,26 @@
     }
   }
 
+  const stripMarkdown = (md: string): string => {
+    return md
+      .replace(/```[\s\S]*?```/g, '')
+      .replace(/`([^`]+)`/g, '$1')
+      .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
+      .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+      .replace(/^#{1,6}\s+/gm, '')
+      .replace(/(\*\*|__)(.*?)\1/g, '$2')
+      .replace(/(\*|_)(.*?)\1/g, '$2')
+      .replace(/~~(.*?)~~/g, '$1')
+      .replace(/^\s*>\s+/gm, '')
+      .replace(/^\s*[-*+]\s+/gm, '')
+      .replace(/^\s*\d+\.\s+/gm, '')
+      .replace(/\s+/g, ' ')
+      .trim()
+  }
+
   const truncateDescription = (description: string) => {
-    return description.length > 100 ? description.substring(0, 100) + '...' : description
+    const plain = stripMarkdown(description)
+    return plain.length > 100 ? plain.substring(0, 100) + '...' : plain
   }
 </script>
 

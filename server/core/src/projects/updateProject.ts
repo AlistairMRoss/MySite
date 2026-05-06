@@ -1,28 +1,25 @@
 import { Project } from '@shared-types/index'
 import { DynamoDB } from 'aws-sdk'
 import { Resource } from 'sst'
-import { v4 as uuid } from 'uuid'
 
 export async function updateProject(project: Project): Promise<Project> {
+    if (!project.projectId) {
+        throw new Error('updateProject requires an existing projectId')
+    }
+
     try {
-        const projectId = uuid()
         const dynamoDb = new DynamoDB.DocumentClient()
-        
-        const projectWithId = {
-            ...project,
-            projectId
-        }
-        
+
         const params = {
             // @ts-ignore
             TableName: Resource.projects.name ?? '',
-            Item: projectWithId
+            Item: project
         }
-        
+
         await dynamoDb.put(params).promise()
-        
-        return projectWithId
+
+        return project
     } catch (err: any) {
-        throw new Error('There was an error adding project: ' + err)
+        throw new Error('There was an error updating project: ' + err)
     }
 }

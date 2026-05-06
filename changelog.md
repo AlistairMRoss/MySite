@@ -24,3 +24,4 @@
 - Fixing auth
 - Fixing authoriser
 - Fixing MD, and styling
+- Fixing update project
