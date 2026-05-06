@@ -109,26 +109,6 @@
     radial-gradient(ellipse 40% 30% at 80% 90%, color-mix(in srgb, var(--accent) 6%, transparent), transparent 70%);
 }
 
-/* Hairline divider between sections — subtle accent shimmer */
-.section-divider {
-  position: relative;
-}
-.section-divider::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(60rem, 80%);
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    color-mix(in srgb, var(--accent) 40%, transparent),
-    transparent
-  );
-}
-
 /* Themed inputs — pick up theme bg/border/text */
 .themed-input {
   background-color: var(--primary-bg);

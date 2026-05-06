@@ -16,14 +16,14 @@
   let clickCount = 0
   let firstClickTime = 0
 
-  const resumeUrl = 'https://alistair-ross-cv.s3.us-east-1.amazonaws.com/Alistair_Resume.pdf'
+  const resumeUrl = `https://alistair-ross-cv.s3.us-east-1.amazonaws.com/Alistair_Resume.pdf?v=${__BUILD_ID__}`
 
   const smoothScrollTo = (elementId: string): void => {
     const element = document.getElementById(elementId)
     if (element) {
-      const offsetTop = element.offsetTop - 80
+      const top = element.getBoundingClientRect().top + window.scrollY - 80
       window.scrollTo({
-        top: offsetTop,
+        top,
         behavior: 'smooth'
       })
     }
@@ -317,7 +317,7 @@
     {/if}
   </section>
 
-  <section class="py-[10rem] secondary-bg section-divider p-8 pt-20">
+  <section class="py-[10rem] secondary-bg p-8 pt-20">
     <div class="max-w-4xl mx-auto text-center">
       <h2 class="font-custom text-3xl md:text-4xl font-bold primary-text mb-8" id="about">About Me</h2>
       <p class="font-custom secondary-text text-lg leading-relaxed">
