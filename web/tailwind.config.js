@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+import typography from '@tailwindcss/typography';
 
 export const content = [
   './src/**/*.{html,js,svelte,ts}'
@@ -10,4 +11,4 @@ export const theme = {
     }
   },
 };
-export const plugins = [];
+export const plugins = [typography];

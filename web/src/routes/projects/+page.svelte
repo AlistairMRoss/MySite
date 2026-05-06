@@ -134,7 +134,7 @@
           {#each allCategories as category}
             <button
               on:click={() => selectedCategory = category}
-              class="{selectedCategory === category ? 'bg-blue-500 text-white border-2 border-blue-500' : 'primary-text border-2 button-border hover:bg-blue-50'} px-4 py-2 rounded-full transition-all duration-300 text-sm font-medium"
+              class="{selectedCategory === category ? 'accent-bg accent-border text-white border-2' : 'primary-text border-2 button-border card-hover'} px-4 py-2 rounded-full transition-all duration-300 text-sm font-medium"
             >
               {category}
             </button>

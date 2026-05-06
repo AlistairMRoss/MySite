@@ -2,66 +2,78 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Default (dark) theme */
+/* Default (dark) theme — zinc, lifted from pure black for sleeker layering */
 :root {
-  --primary-bg: #000000;
-  --secondary-bg: #171717;
-  --tertiary-bg: #000000;
-  --card-bg: #171717;
-  --primary-text: #ffffff;
-  --secondary-text: #d4d4d8;
-  --button-border: #ffffff;
-  --button-hover-bg: #ffffff;
-  --button-hover-text: #000000;
-  --card-hover-bg: #262626;
-  --card-border: #404040;
-  
+  --primary-bg: #0a0a0a;
+  --secondary-bg: #111111;
+  --tertiary-bg: #0a0a0a;
+  --card-bg: #141414;
+  --primary-text: #fafafa;
+  --secondary-text: #a1a1aa;
+  --button-border: #262626;
+  --button-hover-bg: #fafafa;
+  --button-hover-text: #0a0a0a;
+  --card-hover-bg: #1c1c1c;
+  --card-border: #262626;
+
+  /* Accent (used for underlines, focus, active filter) */
+  --accent: #818cf8;
+  --accent-strong: #6366f1;
+  --underline-color: var(--accent);
+  --social-hover-bg: rgba(255, 255, 255, 0.06);
+
   /* Status colors */
-  --status-live-bg: #14532d;
-  --status-live-text: #22c55e;
-  --status-progress-bg: #713f12;
-  --status-progress-text: #eab308;
-  --status-complete-bg: #581c87;
-  --status-complete-text: #a855f7;
-  
+  --status-live-bg: rgba(34, 197, 94, 0.12);
+  --status-live-text: #4ade80;
+  --status-progress-bg: rgba(234, 179, 8, 0.12);
+  --status-progress-text: #facc15;
+  --status-complete-bg: rgba(168, 85, 247, 0.12);
+  --status-complete-text: #c084fc;
+
   /* Category colors */
-  --category-bg: #1e3a8a;
-  --category-text: #93c5fd;
-  
+  --category-bg: rgba(129, 140, 248, 0.12);
+  --category-text: #a5b4fc;
+
   /* Tech tag colors */
-  --tech-bg: #404040;
+  --tech-bg: #1f1f1f;
   --tech-text: #d4d4d8;
 }
 
-/* Inverted (light) theme */
+/* Inverted (light) theme — warm-neutral counterpart */
 .inverted {
-  --primary-bg: #ffffff;
-  --secondary-bg: #fafafa;
-  --tertiary-bg: #fafaf9;
+  --primary-bg: #fafafa;
+  --secondary-bg: #ffffff;
+  --tertiary-bg: #f4f4f5;
   --card-bg: #ffffff;
-  --primary-text: #000000;
-  --secondary-text: #525252;
-  --button-border: #000000;
-  --button-hover-bg: #000000;
-  --button-hover-text: #ffffff;
-  --card-hover-bg: #fafafa;
-  --card-border: #e5e5e5;
-  
+  --primary-text: #18181b;
+  --secondary-text: #52525b;
+  --button-border: #e4e4e7;
+  --button-hover-bg: #18181b;
+  --button-hover-text: #fafafa;
+  --card-hover-bg: #f4f4f5;
+  --card-border: #e4e4e7;
+
+  /* Accent */
+  --accent: #4f46e5;
+  --accent-strong: #4338ca;
+  --underline-color: var(--accent);
+  --social-hover-bg: rgba(0, 0, 0, 0.05);
+
   /* Status colors */
   --status-live-bg: #dcfce7;
-  --status-live-text: #16a34a;
+  --status-live-text: #15803d;
   --status-progress-bg: #fef3c7;
-  --status-progress-text: #d97706;
+  --status-progress-text: #b45309;
   --status-complete-bg: #f3e8ff;
-  --status-complete-text: #9333ea;
-  
+  --status-complete-text: #7e22ce;
+
   /* Category colors */
-  --category-bg: #dbeafe;
-  --category-text: #1d4ed8;
-  
+  --category-bg: #e0e7ff;
+  --category-text: #4338ca;
+
   /* Tech tag colors */
-  --tech-bg: #e5e5e5;
-  --tech-text: #404040;
+  --tech-bg: #f4f4f5;
+  --tech-text: #52525b;
 }
 
 /* Utility classes */
@@ -82,6 +94,10 @@
 .card-hover:hover { background-color: var(--card-hover-bg); }
 .underline-color { background-color: var(--underline-color); }
 .social-hover:hover { background-color: var(--social-hover-bg); }
+.accent-bg { background-color: var(--accent); }
+.accent-text { color: var(--accent); }
+.accent-border { border-color: var(--accent); }
+.accent-hover-bg:hover { background-color: var(--accent-strong); }
 
 .success-notification {
   background-color: var(--success-bg);

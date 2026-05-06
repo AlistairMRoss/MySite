@@ -1,6 +1,15 @@
 <script lang='ts'>
+  import { marked } from 'marked'
+
   export let project
   export let onClose = () => {}
+
+  marked.setOptions({
+    breaks: true,
+    gfm: true
+  })
+
+  $: renderedDescription = project?.description ? marked(project.description) : ''
 
   const handleKeydown = (e: KeyboardEvent) => {
     if (e.key === 'Escape') {
@@ -79,9 +88,9 @@
       <div class="px-8 py-6 space-y-8">
         <section>
           <h2 class="text-xl font-semibold text-gray-900 mb-4">Description</h2>
-          <p class="text-gray-700 leading-relaxed text-lg">
-            {project.description}
-          </p>
+          <div class="prose prose-stone max-w-none">
+            {@html renderedDescription}
+          </div>
         </section>
 
      
