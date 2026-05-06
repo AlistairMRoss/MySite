@@ -202,7 +202,7 @@
     </div>
   {/if}
 
-  <section class="font-custom welcome-section primary-bg min-h-screen flex flex-col items-center justify-center p-8 relative">
+  <section class="font-custom welcome-section hero-glow min-h-screen flex flex-col items-center justify-center p-8 relative">
     {#if showWelcome}
       <!-- svelte-ignore a11y_no_noninteractive_element_to_interactive_role -->
       <!-- eslint-disable-next-line svelte/valid-compile -->
@@ -317,10 +317,10 @@
     {/if}
   </section>
 
-  <section class="py-[10rem] secondary-bg p-8 pt-20">
+  <section class="py-[10rem] secondary-bg section-divider p-8 pt-20">
     <div class="max-w-4xl mx-auto text-center">
       <h2 class="font-custom text-3xl md:text-4xl font-bold primary-text mb-8" id="about">About Me</h2>
-      <p class="font-custom primary-text text-lg leading-relaxed">
+      <p class="font-custom secondary-text text-lg leading-relaxed">
         My name is Alistair Ross. I am 23 years old, from Johannesburg, South Africa. I have an honours degree in Computer science
         from the University of Pretoria.
       </p>

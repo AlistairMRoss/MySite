@@ -5,16 +5,16 @@
 /* Default (dark) theme — zinc, lifted from pure black for sleeker layering */
 :root {
   --primary-bg: #0a0a0a;
-  --secondary-bg: #111111;
-  --tertiary-bg: #0a0a0a;
-  --card-bg: #141414;
+  --secondary-bg: #161618;
+  --tertiary-bg: #0e0e10;
+  --card-bg: #1a1a1d;
   --primary-text: #fafafa;
   --secondary-text: #a1a1aa;
-  --button-border: #262626;
+  --button-border: #2a2a2e;
   --button-hover-bg: #fafafa;
   --button-hover-text: #0a0a0a;
-  --card-hover-bg: #1c1c1c;
-  --card-border: #262626;
+  --card-hover-bg: #222226;
+  --card-border: #2a2a2e;
 
   /* Accent (used for underlines, focus, active filter) */
   --accent: #818cf8;
@@ -99,6 +99,35 @@
 .accent-text { color: var(--accent); }
 .accent-border { border-color: var(--accent); }
 .accent-hover-bg:hover { background-color: var(--accent-strong); }
+
+/* Hero glow — soft radial accent behind welcome / hero sections */
+.hero-glow {
+  position: relative;
+  background-color: var(--primary-bg);
+  background-image:
+    radial-gradient(ellipse 70% 50% at 50% 35%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 70%),
+    radial-gradient(ellipse 40% 30% at 80% 90%, color-mix(in srgb, var(--accent) 6%, transparent), transparent 70%);
+}
+
+/* Hairline divider between sections — subtle accent shimmer */
+.section-divider {
+  position: relative;
+}
+.section-divider::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(60rem, 80%);
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--accent) 40%, transparent),
+    transparent
+  );
+}
 
 /* Themed inputs — pick up theme bg/border/text */
 .themed-input {
