@@ -4469,6 +4469,7 @@ __metadata:
     svelte: "npm:^4.0.0"
     svelte-eslint-parser: "npm:^0.33.0"
     typescript: "npm:^5.9.2"
+    whatwentwrong: "npm:^0.1.1"
   languageName: unknown
   linkType: soft
 
@@ -6335,6 +6336,17 @@ __metadata:
     yarn: "npm:^1.22.22"
   languageName: unknown
   linkType: soft
+
+"whatwentwrong@npm:^0.1.1":
+  version: 0.1.1
+  resolution: "whatwentwrong@npm:0.1.1"
+  peerDependencies:
+    "@pulumi/aws": ^6.0.0
+    "@pulumi/pulumi": ^3.0.0
+    sst: ^3.0.0
+  checksum: 10c0/741f5eefcc5b63cd5f1f01bf2e5882b4d71375b4b5a5fd110a286c055ab8069a9695ffac80aeffba8dc167fdd4a4281f8387270b8539211d27ee84e7e418114b
+  languageName: node
+  linkType: hard
 
 "which-typed-array@npm:^1.1.16, which-typed-array@npm:^1.1.2":
   version: 1.1.19

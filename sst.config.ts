@@ -1,5 +1,7 @@
 /// <reference path='./.sst/platform/config.d.ts' />
 
+import { Monitor } from 'whatwentwrong';
+
 export default $config({
   app(input) {
     return {
@@ -10,8 +12,13 @@ export default $config({
     };
   },
   async run() {
+    const alerts = new Monitor("Alerts", { email: "you@example.com" });
+
     await import('./infra/Dynamo')
-    await import('./infra/Api')
+    const api = await import('./infra/Api')
+
+    alerts.watch([api])
+
     new sst.aws.StaticSite("web", {
       path: 'web',
       build: {
