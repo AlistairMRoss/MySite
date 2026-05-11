@@ -19,7 +19,7 @@ $transform(sst.aws.Function, (args) => {
 	]
 })
 
-const Api = new sst.aws.ApiGatewayV2('api', {
+export const Api = new sst.aws.ApiGatewayV2('api', {
 	link: [projectsTable, blogsTable, subscribersTable],
 	domain: `api.${$app.stage}.alistairmikeross.com`,
 	cors: {

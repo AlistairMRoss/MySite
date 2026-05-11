@@ -14,7 +14,6 @@ const auth = new sst.Linkable('authLinks', {
   properties: {
     MyAuth: 'https://auth.alistairmikeross.com',
     redirect: 'https://api.live.alistairmikeross.com/redirect'
-    
   }
 })
 

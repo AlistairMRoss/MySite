@@ -33,4 +33,5 @@
 - cool mouse thing
 - updating email sender
 
-#
+# 11/05
+- Testing monitoring

@@ -2,9 +2,14 @@
 /* tslint:disable */
 /* eslint-disable */
 /* deno-fmt-ignore-file */
+/* biome-ignore-all lint: auto-generated */
 
 declare module "sst" {
   export interface Resource {
+    "AlertsNotifier": {
+      "name": string
+      "type": "sst.aws.Function"
+    }
     "AuthorizerFunction": {
       "name": string
       "type": "sst.aws.Function"
@@ -13,11 +18,20 @@ declare module "sst" {
       "type": "sst.aws.ApiGatewayV2"
       "url": string
     }
-    "newApi": {
-      "type": "sst.aws.ApiGatewayV2"
-      "url": string
+    "authLinks": {
+      "MyAuth": string
+      "redirect": string
+      "type": "sst.sst.Linkable"
+    }
+    "blogs": {
+      "name": string
+      "type": "sst.aws.Dynamo"
     }
     "projects": {
+      "name": string
+      "type": "sst.aws.Dynamo"
+    }
+    "subscribers": {
       "name": string
       "type": "sst.aws.Dynamo"
     }

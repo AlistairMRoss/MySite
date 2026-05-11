@@ -1,7 +1,5 @@
 /// <reference path='./.sst/platform/config.d.ts' />
 
-import { Monitor } from 'whatwentwrong';
-
 export default $config({
   app(input) {
     return {
@@ -9,15 +7,25 @@ export default $config({
       removal: input?.stage === 'live' ? 'remove' : 'remove',
       protect: ['live'].includes(input?.stage),
       home: 'aws'
+      ,providers: {
+        aws: {
+          profile: 'my_site',
+          region: 'af-south-1'
+        }
+      }
     };
   },
   async run() {
-    const alerts = new Monitor("Alerts", { email: "you@example.com" });
+    const { Monitor } = await import("whatwentwrong");                                                                                                                                            
+                                                            
+    const alerts = new Monitor("Alerts", {                                                                                                                                                        
+      email: "alistairmikeross@gmail.com",
+    });   
 
     await import('./infra/Dynamo')
-    const api = await import('./infra/Api')
+    const { Api } = await import('./infra/Api')
 
-    alerts.watch([api])
+    alerts.watch([Api], {metric: 'both'})
 
     new sst.aws.StaticSite("web", {
       path: 'web',
