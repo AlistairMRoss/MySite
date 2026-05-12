@@ -1,154 +1,158 @@
-<script lang='ts'>
-  import { onMount } from 'svelte'
-  import { fly } from 'svelte/transition'
-  import { authStore } from '$lib/stores/auth'
-  import { themeInverted } from '$lib/stores/theme'
-  import { get } from 'svelte/store'
-  import PageSection from '../components/PageSection.svelte'
+<script lang="ts">
+  import { onMount } from "svelte";
+  import { fly } from "svelte/transition";
+  import { authStore } from "$lib/stores/auth";
+  import { themeInverted } from "$lib/stores/theme";
+  import { get } from "svelte/store";
+  import PageSection from "../components/PageSection.svelte";
 
-  let showWelcome = false
-  let showNavigation = false
-  let showSocialLinks = false
-  let showInvertButton = false
-  let showEmailCopied = false
-  let showResume = false
+  let showWelcome = false;
+  let showNavigation = false;
+  let showSocialLinks = false;
+  let showInvertButton = false;
+  let showEmailCopied = false;
+  let showResume = false;
 
-  let clickCount = 0
-  let firstClickTime = 0
+  let clickCount = 0;
+  let firstClickTime = 0;
 
-  const resumeUrl = `https://alistair-ross-cv.s3.us-east-1.amazonaws.com/Alistair_Resume.pdf?v=${__BUILD_ID__}`
+  const resumeUrl = `https://alistair-ross-cv.s3.us-east-1.amazonaws.com/Alistair_Resume.pdf?v=${__BUILD_ID__}`;
 
   const smoothScrollTo = (elementId: string): void => {
-    const element = document.getElementById(elementId)
+    const element = document.getElementById(elementId);
     if (element) {
-      const top = element.getBoundingClientRect().top + window.scrollY - 80
+      const top = element.getBoundingClientRect().top + window.scrollY - 80;
       window.scrollTo({
         top,
-        behavior: 'smooth'
-      })
+        behavior: "smooth",
+      });
     }
-  }
+  };
 
   const openResume = (): void => {
-    showResume = true
-  }
+    showResume = true;
+  };
 
   const closeResume = (): void => {
-    showResume = false
-  }
+    showResume = false;
+  };
 
   const downloadResume = async (): Promise<void> => {
     try {
-      const response = await fetch(resumeUrl)
+      const response = await fetch(resumeUrl);
 
       if (!response.ok) {
-        throw new Error('Failed to fetch resume')
+        throw new Error("Failed to fetch resume");
       }
 
-      const blob = await response.blob()
-      const url = window.URL.createObjectURL(blob)
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
 
-      const link = document.createElement('a')
-      link.href = url
-      link.download = 'Alistair_Ross_Resume.pdf'
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "Alistair_Ross_Resume.pdf";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
 
-      window.URL.revokeObjectURL(url)
+      window.URL.revokeObjectURL(url);
     } catch (error) {
-      console.error('Error downloading resume:', error)
-      window.open(resumeUrl, '_blank')
+      console.error("Error downloading resume:", error);
+      window.open(resumeUrl, "_blank");
     }
-  }
+  };
 
   const handleResumeKeydown = (e: KeyboardEvent): void => {
-    if (e.key === 'Escape') closeResume()
-  }
+    if (e.key === "Escape") {
+      closeResume();
+    }
+  };
 
   const copyEmailToClipboard = (): void => {
-    const email = 'alistairmikeross.com'
+    const email = "alistairmikeross.com";
     navigator.clipboard.writeText(email).then(() => {
-      showEmailCopied = true
+      showEmailCopied = true;
       setTimeout(() => {
-        showEmailCopied = false
-      }, 2000)
-    })
-  }
+        showEmailCopied = false;
+      }, 2000);
+    });
+  };
 
   const openGithub = (): void => {
-    window.open('https://github.com/alistairmross', '_blank')
-  }
+    window.open("https://github.com/alistairmross", "_blank");
+  };
 
   const openLinkedIn = (): void => {
-    window.open('https://linkedin.com/in/alistair-ross-1b647a204', '_blank')
-  }
+    window.open("https://linkedin.com/in/alistair-ross-1b647a204", "_blank");
+  };
 
   const toggleInvert = (): void => {
-    themeInverted.toggle()
-    showWelcome = false
-    showNavigation = false
-    showSocialLinks = false
-    showInvertButton = false
+    themeInverted.toggle();
+    showWelcome = false;
+    showNavigation = false;
+    showSocialLinks = false;
+    showInvertButton = false;
     setTimeout(() => {
-      showWelcome = true
-      showNavigation = true
-      showSocialLinks = true
-      showInvertButton = true
-    }, 100)
-  }
+      showWelcome = true;
+      showNavigation = true;
+      showSocialLinks = true;
+      showInvertButton = true;
+    }, 100);
+  };
 
-  let glowFrame = 0
+  let glowFrame = 0;
   const handleHeroMouseMove = (e: MouseEvent): void => {
-    const target = e.currentTarget as HTMLElement
-    const rect = target.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
-    if (glowFrame) cancelAnimationFrame(glowFrame)
+    const target = e.currentTarget as HTMLElement;
+    const rect = target.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    if (glowFrame) {
+      cancelAnimationFrame(glowFrame);
+    }
     glowFrame = requestAnimationFrame(() => {
-      target.style.setProperty('--mouse-x', `${x}px`)
-      target.style.setProperty('--mouse-y', `${y}px`)
-      target.style.setProperty('--glow-opacity', '1')
-    })
-  }
+      target.style.setProperty("--mouse-x", `${x}px`);
+      target.style.setProperty("--mouse-y", `${y}px`);
+      target.style.setProperty("--glow-opacity", "1");
+    });
+  };
 
   const handleHeroMouseLeave = (e: MouseEvent): void => {
-    const target = e.currentTarget as HTMLElement
-    target.style.setProperty('--glow-opacity', '0')
-  }
+    const target = e.currentTarget as HTMLElement;
+    target.style.setProperty("--glow-opacity", "0");
+  };
 
-  const handleWelcomeClick = async(): Promise<void> => {
-    const currentTime = Date.now()
-  
+  const handleWelcomeClick = async (): Promise<void> => {
+    const currentTime = Date.now();
+
     if (currentTime - firstClickTime > 5000) {
-      clickCount = 1
-      firstClickTime = currentTime
+      clickCount = 1;
+      firstClickTime = currentTime;
     } else {
-      clickCount++
+      clickCount++;
     }
-  
+
     if (clickCount === 5) {
-      await authStore.startAuthFlow()
-      clickCount = 0 
-      firstClickTime = 0
+      await authStore.startAuthFlow();
+      clickCount = 0;
+      firstClickTime = 0;
     }
-  }
+  };
 
-  onMount(async() => {
-    showWelcome = true
-    showNavigation = true
-    showSocialLinks = true
-    showInvertButton = true
+  onMount(async () => {
+    showWelcome = true;
+    showNavigation = true;
+    showSocialLinks = true;
+    showInvertButton = true;
 
-    const authState = get(authStore)
-    const accessToken = authState.accessToken
+    const authState = get(authStore);
+    const accessToken = authState.accessToken;
     if (accessToken) {
-      const verified = await authStore.verifyTokens(accessToken)
+      const verified = await authStore.verifyTokens(accessToken);
       if (!verified && authState.refreshToken) {
-        await authStore.refreshToken(authState.refreshToken)
+        await authStore.refreshToken(authState.refreshToken);
       }
     }
-  })
+  });
 </script>
 
 <svelte:head>
@@ -171,15 +175,28 @@
         class="primary-bg relative flex h-full w-full max-w-5xl flex-col overflow-hidden rounded-lg border button-border shadow-2xl"
         on:click|stopPropagation
       >
-        <div class="flex items-center justify-between border-b button-border px-4 py-3">
+        <div
+          class="flex items-center justify-between border-b button-border px-4 py-3"
+        >
           <h2 class="font-custom primary-text text-lg font-bold">Resume</h2>
           <div class="flex items-center space-x-2">
             <button
               on:click={downloadResume}
               class="font-custom primary-text button-hover border button-border rounded-md px-3 py-1.5 text-sm font-medium transition-all duration-200 flex items-center space-x-2"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                />
               </svg>
               <span>Download</span>
             </button>
@@ -189,8 +206,19 @@
               class="primary-text button-hover border button-border rounded-md p-1.5 transition-all duration-200"
               title="Close"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </button>
           </div>
@@ -205,9 +233,11 @@
   {/if}
 
   {#if showEmailCopied}
-    <div class="font-custom fixed top-4 left-1/2 transform -translate-x-1/2 z-50 card-bg primary-text border button-border px-4 py-2 rounded-lg shadow-lg"
+    <div
+      class="font-custom fixed top-4 left-1/2 transform -translate-x-1/2 z-50 card-bg primary-text border button-border px-4 py-2 rounded-lg shadow-lg"
       in:fly={{ y: -50, duration: 300 }}
-      out:fly={{ y: -50, duration: 300 }}>
+      out:fly={{ y: -50, duration: 300 }}
+    >
       📧 Email address copied to clipboard!
     </div>
   {/if}
@@ -221,47 +251,58 @@
     {#if showWelcome}
       <!-- svelte-ignore a11y_no_noninteractive_element_to_interactive_role -->
       <!-- eslint-disable-next-line svelte/valid-compile -->
-      <h1 
-        class="font-custom welcome-text primary-text text-4xl md:text-6xl font-bold mb-12 text-center cursor-pointer select-none user-select-none" 
+      <h1
+        class="font-custom welcome-text primary-text text-4xl md:text-6xl font-bold mb-12 text-center cursor-pointer select-none user-select-none"
         in:fly={{ y: 50, duration: 800, delay: 200 }}
         on:click={handleWelcomeClick}
         role="button"
         tabindex="0"
-        on:keydown={(e) => e.key === 'Enter' && handleWelcomeClick()}
+        on:keydown={(e) => e.key === "Enter" && handleWelcomeClick()}
       >
         Hi, welcome to my page!
       </h1>
     {/if}
 
     {#if showNavigation}
-      <div class="flex justify-center w-full mb-8" in:fly={{ y: 30, duration: 600, delay: 400 }}>
+      <div
+        class="flex justify-center w-full mb-8"
+        in:fly={{ y: 30, duration: 600, delay: 400 }}
+      >
         <nav>
-          <ul class="flex flex-col md:flex-row items-center space-y-6 md:space-y-0 md:space-x-12">
+          <ul
+            class="flex flex-col md:flex-row items-center space-y-6 md:space-y-0 md:space-x-12"
+          >
             <li>
               <button
-                on:click={() => smoothScrollTo('about')}
+                on:click={() => smoothScrollTo("about")}
                 class="font-custom group relative primary-text text-2xl font-bold py-4 px-8 button-hover transition-all duration-300 transform hover:scale-105 cursor-pointer"
               >
                 About Me
-                <span class="absolute bottom-0 left-0 w-0 h-0.5 underline-color group-hover:w-full transition-all duration-300"></span>
+                <span
+                  class="absolute bottom-0 left-0 w-0 h-0.5 underline-color group-hover:w-full transition-all duration-300"
+                ></span>
               </button>
             </li>
             <li>
               <button
-                on:click={() => smoothScrollTo('projects')}
+                on:click={() => smoothScrollTo("projects")}
                 class="font-custom group relative primary-text text-2xl font-bold py-4 px-8 button-hover transition-all duration-300 transform hover:scale-105 cursor-pointer"
               >
                 Things I've Done
-                <span class="absolute bottom-0 left-0 w-0 h-0.5 underline-color group-hover:w-full transition-all duration-300"></span>
+                <span
+                  class="absolute bottom-0 left-0 w-0 h-0.5 underline-color group-hover:w-full transition-all duration-300"
+                ></span>
               </button>
             </li>
             <li>
               <button
-                on:click={() => smoothScrollTo('blog')}
+                on:click={() => smoothScrollTo("blog")}
                 class="font-custom group relative primary-text text-2xl font-bold py-4 px-8 button-hover transition-all duration-300 transform hover:scale-105 cursor-pointer"
               >
                 I Write Here Sometimes
-                <span class="absolute bottom-0 left-0 w-0 h-0.5 underline-color group-hover:w-full transition-all duration-300"></span>
+                <span
+                  class="absolute bottom-0 left-0 w-0 h-0.5 underline-color group-hover:w-full transition-all duration-300"
+                ></span>
               </button>
             </li>
             <li>
@@ -269,11 +310,24 @@
                 on:click={openResume}
                 class="font-custom group relative primary-text text-2xl font-bold py-4 px-8 button-hover transition-all duration-300 transform hover:scale-105 cursor-pointer flex items-center space-x-2"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                  />
                 </svg>
                 <span>Resume</span>
-                <span class="absolute bottom-0 left-0 w-0 h-0.5 underline-color group-hover:w-full transition-all duration-300"></span>
+                <span
+                  class="absolute bottom-0 left-0 w-0 h-0.5 underline-color group-hover:w-full transition-all duration-300"
+                ></span>
               </button>
             </li>
           </ul>
@@ -282,15 +336,25 @@
     {/if}
 
     {#if showSocialLinks}
-      <div class="flex justify-center space-x-6" in:fly={{ y: 20, duration: 500, delay: 200 }}>
+      <div
+        class="flex justify-center space-x-6"
+        in:fly={{ y: 20, duration: 500, delay: 200 }}
+      >
         <!-- svelte-ignore a11y_consider_explicit_label -->
         <button
           on:click={openGithub}
           class="primary-text social-hover p-3 rounded-full transition-all duration-300 transform hover:scale-110"
           title="GitHub"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-8 w-8"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+            />
           </svg>
         </button>
 
@@ -300,8 +364,15 @@
           class="primary-text social-hover p-3 rounded-full transition-all duration-300 transform hover:scale-110"
           title="LinkedIn"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-8 w-8"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+            />
           </svg>
         </button>
 
@@ -311,8 +382,19 @@
           class="primary-text social-hover p-3 rounded-full transition-all duration-300 transform hover:scale-110"
           title="Email"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-8 w-8"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+            />
           </svg>
         </button>
       </div>
@@ -324,8 +406,19 @@
         class="absolute top-8 right-8 primary-text button-hover border-2 button-border px-4 py-2 rounded-full transition-all duration-300 hover:scale-105 flex items-center space-x-2"
         in:fly={{ x: 50, duration: 400, delay: 200 }}
       >
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"
+          />
         </svg>
         <span class="font-custom text-sm font-medium">Invert</span>
       </button>
@@ -335,32 +428,38 @@
   <section class="py-32 md:py-40 primary-bg px-8" id="about">
     <div class="max-w-4xl mx-auto text-center">
       <span class="eyebrow mb-4">Introduction</span>
-      <h2 class="font-custom text-3xl md:text-5xl font-bold primary-text mb-6 mt-4">About Me</h2>
-      <p class="font-custom secondary-text text-lg leading-relaxed max-w-2xl mx-auto">
-        My name is Alistair Ross. I am 23 years old, from Johannesburg, South Africa. I have an honours degree in Computer science
-        from the University of Pretoria.
+      <h2
+        class="font-custom text-3xl md:text-5xl font-bold primary-text mb-6 mt-4"
+      >
+        About Me
+      </h2>
+      <p
+        class="font-custom secondary-text text-lg leading-relaxed max-w-2xl mx-auto"
+      >
+        My name is Alistair Ross. I am a 24 year old, from Johannesburg, South
+        Africa. I have an honours degree in Computer science from the University
+        of Pretoria.
       </p>
     </div>
   </section>
 
   <PageSection
-    eyebrow='Selected Work'
-    title='Things I Have Done'
+    eyebrow="Selected Work"
+    title="Things I Have Done"
     description="I can't promise much from this"
     navigateTo="/projects"
-    naviageTitle='Explore All Projects'
+    naviageTitle="Explore All Projects"
     bgColor="primary-bg"
-    id='projects'
+    id="projects"
   />
 
   <PageSection
-    eyebrow='Writing'
-    title='I Write Here Sometimes'
+    eyebrow="Writing"
+    title="I Write Here Sometimes"
     description="I try write whats on my mind sometimes... I can't promise its any good"
     navigateTo="/blog"
-    naviageTitle='Read My Posts'
+    naviageTitle="Read My Posts"
     bgColor="primary-bg"
-    id='blog'
+    id="blog"
   />
-
 </div>
